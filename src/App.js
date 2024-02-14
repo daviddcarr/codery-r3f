@@ -5,6 +5,8 @@ import { Canvas } from '@react-three/fiber'
 import Intro from './scenes/Intro'
 import Skeeball from './scenes/Skeeball'
 import SkeeballUI from './ui/SkeeballUI'
+import MiniGolf from './scenes/MiniGolf'
+import MiniGolfUI from './ui/MiniGolfUI'
 
 function App() {
 
@@ -35,8 +37,11 @@ function App() {
             >
               { currentScene === 0 && <Intro setCurrentScene={ setCurrentScene } /> }
               { currentScene === 1 && <Skeeball setCurrentScene={ setCurrentScene } /> }
+              { currentScene === 2 && <MiniGolf setCurrentScene={ setCurrentScene } /> }
           </Canvas>
           { currentScene === 1 && <SkeeballUI /> }
+          { currentScene === 2 && <MiniGolfUI /> }
+
 
           {/* Back Button */}
           { currentScene !== 0 && (

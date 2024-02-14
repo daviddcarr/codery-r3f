@@ -1,24 +1,24 @@
 import { useRef } from 'react'
-import * as THREE from 'three'
+// import * as THREE from 'three'
 import {
     useFrame,
     extend
 } from '@react-three/fiber'
 import { 
     OrbitControls,
-    useHelper,
+    // useHelper,
     Float,
     Effects,
-    Plane
+    // Plane
 } from "@react-three/drei"
-import {
-    EffectComposer,
-    Bloom
-} from '@react-three/postprocessing'
+// import {
+//     EffectComposer,
+//     Bloom
+// } from '@react-three/postprocessing'
 import {
     UnrealBloomPass
 } from 'three-stdlib'
-import { useControls } from 'leva'
+// import { useControls } from 'leva'
 
 import Atrium from '../models/Atrium'
 import VenusAnimated from '../models/VenusAnimated'
@@ -164,21 +164,27 @@ export default function Intro({ setCurrentScene }) {
                 rotationIntensity={ 0.1 }
                 floatIntensity={ 0.5 }
                 >
-                {/* Plane Geometry */}
-                {/* <Plane
-                    position={ [ 30, 10, -30 ] }
-                    rotation={ [ 0, - Math.PI / 4, 0 ] }
-                    scale={ 15 }
-                    onClick={ () => { setCurrentScene(1) } }
-                    >
-                    <meshBasicMaterial color="hotpink" />
-                </Plane> */}
                 <FloatingImagePlane
                     position={ [ 30, 10, -30 ] }
                     rotation={ [ 0, - Math.PI / 4, 0 ] }
                     scale={ 15 }
                     imageTexture="/heads-will-roll.png"
                     onClick={ () => { setCurrentScene(1) } }
+                    />
+            </Float>
+
+            <Float
+                floatingRange={ [ 0.5, 2 ] }
+                speed={ 0.5 }
+                rotationIntensity={ 0.1 }
+                floatIntensity={ 0.5 }
+                >
+                <FloatingImagePlane
+                    position={ [ -30, 10, -30 ] }
+                    rotation={ [ 0, Math.PI / 4, 0 ] }
+                    scale={ 15 }
+                    imageTexture="/mini-golf.png"
+                    onClick={ () => { setCurrentScene(2) } }
                     />
             </Float>
 

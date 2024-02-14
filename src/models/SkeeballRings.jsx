@@ -8,8 +8,6 @@ import {
     CylinderCollider
 } from '@react-three/rapier'
 
-import useSkeeballGame from '../stores/useSkeeballGame'
-
 
 export default function SkeeballRings({ position, rotation, scale, collisionFunction, animated}) {
 

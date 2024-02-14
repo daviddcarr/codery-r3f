@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import {
     OrbitControls,
-    EffectComposer,
-    Bloom,
     Effects,
     Environment
 } from '@react-three/drei'
@@ -14,7 +12,6 @@ import {
 import SkeeballLights from '../lights/SkeeballLights'
 import SkeeballLane from '../models/SkeeballLane'
 import SkeeballObstacle from '../models/SkeeballObstacle'
-import SkeeballObstacles from '../models/SkeeballObstacles'
 import SkeeballPlayer from '../models/SkeeballPlayer'
 import SkeeballRings from '../models/SkeeballRings'
 import GiantColumns from '../models/GiantColumns'

@@ -17,6 +17,14 @@ function FloatingImagePlane({ onClick, position, rotation, scale, imageTexture }
       rotation={rotation}
       scale={scale}
       onClick={onClick}
+      onPointerEnter={
+        // change cursor to pointer
+        () => document.body.style.cursor = 'pointer'
+      }
+      onPointerLeave={
+        // change cursor back to default
+        () => document.body.style.cursor = 'default'
+      }
     >
       {/* Apply the texture */}
       <meshBasicMaterial attach="material" map={texture} transparent={true} />

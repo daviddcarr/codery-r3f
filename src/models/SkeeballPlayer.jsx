@@ -18,8 +18,8 @@ export default function SkeeballPlayer(props) {
     const [ isStatic, setIsStatic ] = useState(true)
 
     // Camera smoothing states
-    const [ smoothedCameraPosition, setSmoothedCameraPosition ] = useState(() => new THREE.Vector3(10, 10, 10) )
-    const [ smoothedCameraTarget, setSmoothedCameraTarget ] = useState(() => new THREE.Vector3() )
+    const [ smoothedCameraPosition ] = useState(() => new THREE.Vector3(10, 10, 10) )
+    const [ smoothedCameraTarget ] = useState(() => new THREE.Vector3() )
     
     const playerModel = useGLTF('./gltf/Skeeball_VenusHead.glb')
 
