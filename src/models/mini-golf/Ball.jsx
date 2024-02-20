@@ -4,11 +4,13 @@ import {
     RigidBody,
 } from "@react-three/rapier"
 import { useGLTF } from "@react-three/drei"
-import { useFrame } from "@react-three/fiber"
+import { useFrame, useThree } from "@react-three/fiber"
 
 import { useMiniGolfGame } from "../../stores/useMiniGolfGame"
 
 import { useControls } from "leva"
+
+import gsap from "gsap"
 
 export default function Ball({ setOrbitTarget }) {
 
@@ -17,6 +19,9 @@ export default function Ball({ setOrbitTarget }) {
         setCameraMode, 
         cameraPosition,
         setCameraPosition,
+        updateCameraPosition,
+        followCameraPositionChanged,
+        setFollowCameraPositionChanged,
         isHidden,
         addStroke 
     ] = useMiniGolfGame(state => [ 
@@ -24,6 +29,9 @@ export default function Ball({ setOrbitTarget }) {
         state.setCameraMode, 
         state.cameraPosition,
         state.setCameraPosition,
+        state.updateCameraPosition,
+        state.followCameraPositionChanged,
+        state.setFollowCameraPositionChanged,
         state.setIsHidden,
         state.addStroke 
     ])
@@ -48,13 +56,23 @@ export default function Ball({ setOrbitTarget }) {
         mass,
         forceMultiplier,
     } = useControls("Ball Physics", {
-        restitution: { value: 0.2, min: 0, max: 1, step: 0.1 },
-        friction: { value: 1, min: 0, max: 1, step: 0.1 },
+        restitution: { value: 0.9, min: 0, max: 1, step: 0.1 },
+        friction: { value: 1.8, min: 0, max: 2, step: 0.1 },
         linearDamping: { value: 0.2, min: 0, max: 1, step: 0.1 },
         angularDamping: { value: 0.2, min: 0, max: 1, step: 0.1 },
-        mass: { value: 1, min: 0, max: 10, step: 0.1 },
+        mass: { value: 3.5, min: 0, max: 10, step: 0.1 },
         forceMultiplier: { value: 0.0005, min: 0, max: 2, step: 0.0001 },
     })
+
+    // useEffect(() => {
+    //     if (ballRef.current) {
+    //         ballRef.current.updateRestitution(restitution)
+    //         ballRef.current.updateFriction(friction)
+    //         ballRef.current.updateLinearDamping(linearDamping)
+    //         ballRef.current.updateAngularDamping(angularDamping)
+    //         ballRef.current.updateMass(mass)
+    //     }
+    // }, [restitution, friction, linearDamping, angularDamping, mass])
 
     const arrowGltf = useGLTF("./gltf/mini-golf/Arrow.glb")
     const ballGltf = useGLTF("./gltf/mini-golf/Ball.glb")
@@ -77,7 +95,7 @@ export default function Ball({ setOrbitTarget }) {
     }, [isHidden])
 
 
-    const handlePointerDown = (event) => {
+    const handlePointerDown = () => {
         // When user clicks on sphere, start tracking pointer movement
         const vel = ballRef.current.linvel()
         const velVector = new Vector3(vel.x, vel.y, vel.z)
@@ -116,7 +134,7 @@ export default function Ball({ setOrbitTarget }) {
 
 
     useEffect(() => {
-        const handlePointerUp = (event) => {    
+        const handlePointerUp = () => {    
             // Stop tracking pointer movement and apply force to sphere
             setIsDragging(false)
             
@@ -177,13 +195,16 @@ export default function Ball({ setOrbitTarget }) {
                 const cameraLookAt = ballPositionVector.clone()
                 camera.lookAt(cameraLookAt)
 
-                // add cameraOffset to ball position to get new camera position
-                //const cameraPosition = ballPositionVector.clone().add(cameraOffset)
-                //camera.position.lerp(cameraPosition, 0.1)
-
-                camera.position.lerp(cameraPosition, 0.1)
-
-                console.log("Camera Position", cameraPosition)
+                if (followCameraPositionChanged) {
+                    gsap.to( camera.position, {
+                        x: cameraPosition.x,
+                        y: cameraPosition.y,
+                        z: cameraPosition.z,
+                        duration: 1,
+                        ease: 'power1.inOut'
+                    })
+                    setFollowCameraPositionChanged(false)
+                }
 
                 setFreeCameraSet(false)
             } else {
@@ -195,8 +216,8 @@ export default function Ball({ setOrbitTarget }) {
 
                 setFreeCameraSet(true)
 
-                setCameraPosition(camera.position)
-                console.log("Camera Position", cameraPosition)
+                updateCameraPosition(camera.position)
+                // console.log("Camera Position", cameraPosition)
             }
 
             if ( ballRef.current.translation().y < -4 ) {
@@ -228,6 +249,7 @@ export default function Ball({ setOrbitTarget }) {
         <>
 
             <RigidBody
+                key={`${restitution}-${friction}-${linearDamping}-${angularDamping}-${mass}`}
                 ref={ballRef}
                 colliders="ball"
                 name="player"

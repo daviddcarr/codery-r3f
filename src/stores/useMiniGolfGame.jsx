@@ -59,7 +59,15 @@ export const useMiniGolfGame = create((set) => {
         toggleCameraMode: () => set((state) => ({ cameraMode: state.cameraMode === 'free' ? 'follow' : 'free' })),
 
         cameraPosition: [0.25, 0.25, 0],
-        setCameraPosition: (position) => set({ cameraPosition: position }),
+        setCameraPosition: (position) => {
+            console.log("setCameraPosition", position)
+            set({ cameraPosition: position })
+            set({ followCameraPositionChanged: true })
+        },
+        updateCameraPosition: (position) => set({ cameraPosition: position }),
+
+        followCameraPositionChanged: false,
+        setFollowCameraPositionChanged: (followCameraPositionChanged) => set({ followCameraPositionChanged: followCameraPositionChanged }),
 
         isHidden: false,
         setIsHidden: (isHidden) => set({ isHidden: isHidden }),

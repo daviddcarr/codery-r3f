@@ -5,8 +5,7 @@ import {
     Environment
 } from '@react-three/drei'
 import {
-    Physics,
-    Debug
+    Physics
 } from '@react-three/rapier'
 
 import SkeeballLights from '../lights/SkeeballLights'
@@ -69,7 +68,7 @@ export default function Skeeball() {
         <Environment files={"/hdri/empty_warehouse_01_4k.hdr"} />
 
         <Physics>
-            { debug && <Debug /> }
+            {/* { debug && <Debug /> } */}
             <SkeeballLane
                 restitution={ 0.2 }
                 friction={ 0.8 }

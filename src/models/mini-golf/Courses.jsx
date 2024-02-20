@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useMemo, useState, useRef } from "react"
+import { useMemo, useState, useRef, useEffect } from "react"
 import { useFrame } from "@react-three/fiber"
 import { useGLTF } from "@react-three/drei"
 import { RigidBody, CuboidCollider, BallCollider } from "@react-three/rapier"
@@ -13,6 +13,7 @@ export default function Course({position, rotation, number, setOrbitTarget, came
 
     const [ inHoleSound ] = useState(() => new Audio("./audio/ball_inHole.mp3"))
 
+    const [ levelEnded, setLevelEnded ] = useState(false)
 
     const [
         currentLevel,
@@ -29,7 +30,8 @@ export default function Course({position, rotation, number, setOrbitTarget, came
         const collidedBody = event.colliderObject
         
         
-        if (collidedBody.name === "player") {
+        if (collidedBody.name === "player" && !levelEnded) {
+            setLevelEnded(true)
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
             inHoleSound.play()
@@ -45,8 +47,8 @@ export default function Course({position, rotation, number, setOrbitTarget, came
     }
 
     const coursePhysics = useControls("Level Physics", {
-        grassRestitution: { value: 0.5, min: 0, max: 1, step: 0.1 },
-        grassFriction: { value: 0.5, min: 0, max: 1, step: 0.1 },
+        grassRestitution: { value: 1, min: 0, max: 1, step: 0.1 },
+        grassFriction: { value: 1, min: 0, max: 1, step: 0.1 },
         wallRestitution: { value: 1, min: 0, max: 1, step: 0.1 },
         wallFriction: { value: 0.5, min: 0, max: 1, step: 0.1 },
       })
@@ -255,7 +257,7 @@ export function CourseTwo(props) {
     const cameraPositions = [
         new THREE.Vector3(0.25, 0.25, 0),
         new THREE.Vector3(-0.8, 1, -1.2),
-        new THREE.Vector3(-3.2, 1, -0.8),
+        new THREE.Vector3(-3, 1, -2.5),
     ]
 
     const mesh = useMemo(() => {

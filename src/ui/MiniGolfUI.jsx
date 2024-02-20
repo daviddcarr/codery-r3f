@@ -35,7 +35,7 @@ export default function SkeeballUI() {
                 <p><strong>Tip:</strong> Click and drag on the ball in Play Mode to start!</p>
               </div> }
               <div className="bg-white p-2 rounded-md">
-                <p>Stroke Count: { gameState[currentLevel-1].strokes }</p>
+                <p className="text-black">Stroke Count: { gameState[currentLevel-1].strokes }</p>
               </div>
             </div>
 

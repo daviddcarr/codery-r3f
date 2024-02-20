@@ -92,9 +92,15 @@ export default function SkeeballPlayer(props) {
                 type={isStatic ? "fixed" : ""}
                 colliders="ball"
                 >
-                <primitive
+                {/* <primitive
                     object={ playerModel.scene }
+                    castShadow={true}
+                    /> */}
+                <mesh
                     onPointerUp={ Launch }
+                    geometry={playerModel.nodes.VenusHead.geometry}
+                    material={playerModel.nodes.VenusHead.material}
+                    receiveShadow
                     castShadow
                     scale={ 1.3 }
                     ref={playerObject}

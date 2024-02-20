@@ -27,6 +27,7 @@ export default function SkeeballLights() {
                 args={ [ colors.white, 1 ] }
                 position={ [ 0, 10, 0 ] }
                 intensity={ 0.5 }
+                castShadow
                 />
         </>
     )
