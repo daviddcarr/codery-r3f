@@ -4,7 +4,7 @@ import {
     RigidBody,
 } from "@react-three/rapier"
 import { useGLTF } from "@react-three/drei"
-import { useFrame, useThree } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 
 import { useMiniGolfGame } from "../../stores/useMiniGolfGame"
 
@@ -12,11 +12,12 @@ import { useControls } from "leva"
 
 import gsap from "gsap"
 
-export default function Ball({ setOrbitTarget }) {
+export default function Ball({setOrbitTarget}) {
 
     const [ 
         cameraMode, 
         setCameraMode, 
+        gamePaused,
         cameraPosition,
         setCameraPosition,
         updateCameraPosition,
@@ -27,6 +28,7 @@ export default function Ball({ setOrbitTarget }) {
     ] = useMiniGolfGame(state => [ 
         state.cameraMode, 
         state.setCameraMode, 
+        state.gamePaused,
         state.cameraPosition,
         state.setCameraPosition,
         state.updateCameraPosition,
@@ -48,31 +50,14 @@ export default function Ball({ setOrbitTarget }) {
     const [ hitSound ] = useState(() => new Audio("./audio/ball_hitPutter.mp3"))
     const [ hitWallSound ] = useState(() => new Audio("./audio/ball_hitWall.mp3"))
 
-    const {
-        restitution,
-        friction,
-        linearDamping,
-        angularDamping,
-        mass,
-        forceMultiplier,
-    } = useControls("Ball Physics", {
-        restitution: { value: 0.9, min: 0, max: 1, step: 0.1 },
-        friction: { value: 1.8, min: 0, max: 2, step: 0.1 },
-        linearDamping: { value: 0.2, min: 0, max: 1, step: 0.1 },
-        angularDamping: { value: 0.2, min: 0, max: 1, step: 0.1 },
-        mass: { value: 3.5, min: 0, max: 10, step: 0.1 },
-        forceMultiplier: { value: 0.0005, min: 0, max: 2, step: 0.0001 },
-    })
-
-    // useEffect(() => {
-    //     if (ballRef.current) {
-    //         ballRef.current.updateRestitution(restitution)
-    //         ballRef.current.updateFriction(friction)
-    //         ballRef.current.updateLinearDamping(linearDamping)
-    //         ballRef.current.updateAngularDamping(angularDamping)
-    //         ballRef.current.updateMass(mass)
-    //     }
-    // }, [restitution, friction, linearDamping, angularDamping, mass])
+    const phsyics = {
+        restitution: 0.6,
+        friction: 0.25,
+        linearDamping: 0.3,
+        angularDamping: 0.3,
+        mass: 1,
+        forceMultiplier: 0.0005
+    }
 
     const arrowGltf = useGLTF("./gltf/mini-golf/Arrow.glb")
     const ballGltf = useGLTF("./gltf/mini-golf/Ball.glb")
@@ -99,7 +84,7 @@ export default function Ball({ setOrbitTarget }) {
         // When user clicks on sphere, start tracking pointer movement
         const vel = ballRef.current.linvel()
         const velVector = new Vector3(vel.x, vel.y, vel.z)
-        if (cameraMode !== "free" && ballRef.current && velVector.length() < 0.01) {
+        if (!gamePaused && ballRef.current && velVector.length() < 0.01) {
             setIsDragging(true)
         }
     }
@@ -107,7 +92,7 @@ export default function Ball({ setOrbitTarget }) {
     const handlePointerMove = (event) => {
         // Track pointer movement here if user has clicked on sphere and hasn't released pointer and update force vector
     
-        if (cameraMode !== "free" && isDragging && ballRef.current) {
+        if (!gamePaused && isDragging && ballRef.current) {
             const ballPosition = ballRef.current.translation()
             const ballPositionVector = new Vector3(ballPosition.x, ballPosition.y, ballPosition.z)
             const pointerPosition = event.point
@@ -138,8 +123,8 @@ export default function Ball({ setOrbitTarget }) {
             // Stop tracking pointer movement and apply force to sphere
             setIsDragging(false)
             
-            if (cameraMode === "follow" && ballRef.current && forceVector) {
-                const force = forceVector.clone().multiplyScalar(forceMultiplier)
+            if (!gamePaused && ballRef.current && forceVector) {
+                const force = forceVector.clone().multiplyScalar(phsyics.forceMultiplier)
 
                 ballRef.current.applyImpulse(force, true)
 
@@ -195,17 +180,6 @@ export default function Ball({ setOrbitTarget }) {
                 const cameraLookAt = ballPositionVector.clone()
                 camera.lookAt(cameraLookAt)
 
-                if (followCameraPositionChanged) {
-                    gsap.to( camera.position, {
-                        x: cameraPosition.x,
-                        y: cameraPosition.y,
-                        z: cameraPosition.z,
-                        duration: 1,
-                        ease: 'power1.inOut'
-                    })
-                    setFollowCameraPositionChanged(false)
-                }
-
                 setFreeCameraSet(false)
             } else {
                 //setCameraOffset(camera.position.clone().sub(ballPositionVector))
@@ -218,6 +192,18 @@ export default function Ball({ setOrbitTarget }) {
 
                 updateCameraPosition(camera.position)
                 // console.log("Camera Position", cameraPosition)
+            }
+
+            if (followCameraPositionChanged) {
+                gsap.to( camera.position, {
+                    x: cameraPosition.x,
+                    y: cameraPosition.y,
+                    z: cameraPosition.z,
+                    duration: 1,
+                    ease: 'power1.inOut'
+                })
+                setFollowCameraPositionChanged(false)
+                setCameraMode("follow")
             }
 
             if ( ballRef.current.translation().y < -4 ) {
@@ -249,16 +235,15 @@ export default function Ball({ setOrbitTarget }) {
         <>
 
             <RigidBody
-                key={`${restitution}-${friction}-${linearDamping}-${angularDamping}-${mass}`}
                 ref={ballRef}
                 colliders="ball"
                 name="player"
                 ccd={true}
-                restitution={restitution} // Bounciness 0 = no bounce, 1 = full bounce
-                friction={friction}
-                linearDamping={linearDamping}
-                angularDamping={angularDamping}
-                mass={mass}
+                restitution={phsyics.restitution} // Bounciness 0 = no bounce, 1 = full bounce
+                friction={phsyics.friction}
+                linearDamping={phsyics.linearDamping}
+                angularDamping={phsyics.angularDamping}
+                mass={phsyics.mass}
                 position={[0, 0.01, 0]}
                 onCollisionEnter={playBounceSound}
                 >
@@ -266,13 +251,13 @@ export default function Ball({ setOrbitTarget }) {
                     geometry={ballGltf.nodes.GolfBall_LowPoly.geometry}
                     material={ballGltf.nodes.GolfBall_LowPoly.material}
                     castShadow
-                    onPointerDown={cameraMode === "follow" && handlePointerDown}
+                    onPointerDown={!gamePaused && handlePointerDown}
                     />
             </RigidBody>
 
             <mesh
                 ref={planeRef}
-                onPointerMove={cameraMode === "follow" && handlePointerMove}
+                onPointerMove={!gamePaused && handlePointerMove}
                 rotation={[-Math.PI / 2, 0, 0]}
                 visible={false}
             >

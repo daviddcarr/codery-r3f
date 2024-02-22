@@ -49,7 +49,7 @@ function App() {
               className={`opacity-100 absolute top-0 left-0 z-100 flex justify-center items-center p-3`}
         
               >
-                <button className="p-3 bg-white text-black transition-colors leading-none hover:bg-yellow" onClick={() => setCurrentScene(0)}> Back </button>
+                <button className="p-3 pt-4 bg-white text-black transition-colors leading-none hover:bg-yellow" onClick={() => setCurrentScene(0)}> Back </button>
             </div>
           )}
         </Suspense>

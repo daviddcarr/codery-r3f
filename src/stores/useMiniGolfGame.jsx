@@ -2,8 +2,6 @@ import create from 'zustand'
 
 export const useMiniGolfGame = create((set) => {
 
-
-
     const gameState = [
         {
             hole: 1,
@@ -58,6 +56,10 @@ export const useMiniGolfGame = create((set) => {
         setCameraMode: (mode) => set({ cameraMode: mode }),
         toggleCameraMode: () => set((state) => ({ cameraMode: state.cameraMode === 'free' ? 'follow' : 'free' })),
 
+        gamePaused: false,
+        setGamePaused: (gamePaused) => set({ gamePaused: gamePaused }),
+        toggleGamePaused: () => set((state) => ({ gamePaused: !state.gamePaused })),
+
         cameraPosition: [0.25, 0.25, 0],
         setCameraPosition: (position) => {
             console.log("setCameraPosition", position)
@@ -77,9 +79,13 @@ export const useMiniGolfGame = create((set) => {
             setTimeout(() => {
                 set((state) => ({ currentLevel: state.currentLevel + 1 }))
                 set({ isHidden: false })
+                set({ levelEnded: false })
             }
             , 5000)
         },
+
+        levelEnded: false,
+        setLevelEnded: (levelEnded) => set({ levelEnded: levelEnded }),
         
         gameState: gameState,
         addStroke: () => {

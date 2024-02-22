@@ -13,15 +13,17 @@ export default function Course({position, rotation, number, setOrbitTarget, came
 
     const [ inHoleSound ] = useState(() => new Audio("./audio/ball_inHole.mp3"))
 
-    const [ levelEnded, setLevelEnded ] = useState(false)
-
     const [
         currentLevel,
         setNextLevel,
+        levelEnded,
+        setLevelEnded,
         setIsHidden,
     ] = useMiniGolfGame(state => [
         state.currentLevel,
         state.setNextLevel,
+        state.levelEnded,
+        state.setLevelEnded,
         state.setIsHidden,
     ])
 
@@ -46,12 +48,12 @@ export default function Course({position, rotation, number, setOrbitTarget, came
 
     }
 
-    const coursePhysics = useControls("Level Physics", {
-        grassRestitution: { value: 1, min: 0, max: 1, step: 0.1 },
-        grassFriction: { value: 1, min: 0, max: 1, step: 0.1 },
-        wallRestitution: { value: 1, min: 0, max: 1, step: 0.1 },
-        wallFriction: { value: 0.5, min: 0, max: 1, step: 0.1 },
-      })
+    const coursePhysics = {
+        grassRestitution: 0.1,
+        grassFriction: 1,
+        wallRestitution: 0.7,
+        wallFriction: 1
+      }
 
 
     switch (number) {

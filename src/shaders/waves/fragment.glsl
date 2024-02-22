@@ -6,47 +6,27 @@ uniform float uColorMultiplier;
 varying float vElevation;
 varying vec3 vNormal;
 varying vec3 vPosition;
+varying float vSmallWaves;
 
 #include ../includes/directionalLight.glsl
 #include ../includes/pointLight.glsl
 
 void main()
 {
-    vec3 viewDirection = normalize(vPosition - cameraPosition);
-    vec3 normal = normalize(vNormal);
+    // Distance from center
+    float distance = length(vPosition);
+    float fade = 1.0 - smoothstep(0.0, 75.0, distance);
 
-    // Base color
-    float mixStrength = (vElevation + uColorOffset) * uColorMultiplier;
-    mixStrength = clamp(0.0, 1.0, mixStrength);
-    vec3 color = mix(uDepthColor, uSurfaceColor, mixStrength);
+    // vec3 waveColor = vec3(1.0 - smoothstep(-0.8, 0.2, vSmallWaves));
+    vec3 waveColor = vec3(vSmallWaves);
 
-    // Light
-    vec3 light = vec3(0.0);
+    vec3 color1 = vec3(106.0 / 255.0, 18.0 / 255.0, 233.0 / 255.0); 
 
-    light += directionalLight(
-        vec3(1.0),            // Light color
-        1.0,                  // Light intensity,
-        normal,               // Normal
-        vec3(-1.0, 0.5, 0.0), // Light position
-        viewDirection,        // View direction
-        30.0                  // Specular power
-    );
-
-    light += pointLight(
-        vec3(1.0),            // Light color
-        10.0,                  // Light intensity
-        normal,               // Normal
-        vec3(0.0, 0.25, 0.0), // Light position
-        viewDirection,        // View direction
-        30.0,                // Specular power
-        vPosition,            // Light position
-        0.95              // Light Decay
-    );
-
-    color *= light;
+    waveColor *= color1;
+    waveColor *= fade;
     
     // Final color
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(waveColor, 1.0);
     //gl_FragColor = vec4(normal, 1.0);
 
     #include <tonemapping_fragment>
