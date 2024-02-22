@@ -23,7 +23,7 @@ export default function SkeeballPlayer(props) {
     
     const playerModel = useGLTF('./gltf/Skeeball_VenusHead.glb')
 
-    useFrame(({ camera, pointer, viewport }, delta) => {
+    useFrame(({ camera, pointer }, delta) => {
         
         if ( ! props.debug ) {
             if ( isStatic ) {
@@ -39,8 +39,6 @@ export default function SkeeballPlayer(props) {
                         z: 0
                     })
                 }
-            } else {
-
             }
 
             /**

@@ -8,8 +8,6 @@ import { useFrame } from "@react-three/fiber"
 
 import { useMiniGolfGame } from "../../stores/useMiniGolfGame"
 
-import { useControls } from "leva"
-
 import gsap from "gsap"
 
 export default function Ball({setOrbitTarget}) {

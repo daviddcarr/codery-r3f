@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { useGLTF } from '@react-three/drei'
-import { Group } from 'three'
 
 export default function Colosseum(props) {
     const colosseum = useGLTF('./gltf/mini-golf/Colosseum.glb')

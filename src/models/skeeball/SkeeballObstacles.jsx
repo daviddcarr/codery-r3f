@@ -7,7 +7,7 @@ import { useGLTF } from '@react-three/drei'
 import { RigidBody } from '@react-three/rapier'
 
 
-export default function SkeeballObstacles({ range, speed, animated, position, rotation }) {
+export default function SkeeballObstacles() {
     
     return (
         <>

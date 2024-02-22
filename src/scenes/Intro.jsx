@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 // import * as THREE from 'three'
 import {
     useFrame,
@@ -31,10 +31,12 @@ import { Header, Body, Footer } from '../models/HeaderBodyFooter'
 import CoderyLogo from '../models/CoderyLogo'
 import FloatingImagePlane from '../models/FloatingImagePlane'
 
+import useCodery from '../stores/useCodery'
+
 
 extend({ UnrealBloomPass })
 
-export default function Intro({ setCurrentScene }) {
+export default function Intro() {
 
     const butterfly = useRef()
     const geometry = useRef()
@@ -42,6 +44,14 @@ export default function Intro({ setCurrentScene }) {
     const flower = useRef()
     const flowerParent = useRef()
     const flowerGrandparent = useRef()
+
+    const [ 
+        setCurrentScene,
+        setIsLoading 
+      ] = useCodery((state) => [
+          state.setCurrentScene,
+          state.setIsLoading
+      ])
 
     // Animation
     useFrame( (state, delta) => {
@@ -59,6 +69,10 @@ export default function Intro({ setCurrentScene }) {
         flower.current.rotation.y += 0.5 * delta
 
     } )
+
+    useEffect(() => {
+        setIsLoading(false)
+    }, [])
     
     return (
         <>
@@ -169,7 +183,10 @@ export default function Intro({ setCurrentScene }) {
                     rotation={ [ 0, - Math.PI / 4, 0 ] }
                     scale={ 15 }
                     imageTexture="/heads-will-roll.png"
-                    onClick={ () => { setCurrentScene(1) } }
+                    onClick={ () => { 
+                        setCurrentScene(1) 
+                        setIsLoading(true)
+                    } }
                     />
             </Float>
 
@@ -184,7 +201,10 @@ export default function Intro({ setCurrentScene }) {
                     rotation={ [ 0, Math.PI / 4, 0 ] }
                     scale={ 15 }
                     imageTexture="/mini-golf.png"
-                    onClick={ () => { setCurrentScene(2) } }
+                    onClick={ () => { 
+                        setCurrentScene(2)
+                        setIsLoading(true)
+                    } }
                     />
             </Float>
 

@@ -12,7 +12,9 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'off',
+    "react/no-unknown-property": ["error", { ignore: ["geometry", "material", "castShadow", "receiveShadow", "position", "scale", "rotation", "visible", "object", "args", "intensity", "shadow-mapSize", "attach"] }],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

@@ -1,15 +1,21 @@
 import * as THREE from 'three'
-import { useMemo, useState, useRef, useEffect } from "react"
+import { useMemo, useState, useRef } from "react"
 import { useFrame } from "@react-three/fiber"
 import { useGLTF } from "@react-three/drei"
 import { RigidBody, CuboidCollider, BallCollider } from "@react-three/rapier"
-import { useControls } from "leva"
 import { useSpring, a } from '@react-spring/three'
 
 import { useMiniGolfGame } from "../../stores/useMiniGolfGame"
 import Ball from './Ball'
 
-export default function Course({position, rotation, number, setOrbitTarget, cameraFollowPosition, setCameraFollowPosition}) {
+export default function Course({
+    position, 
+    rotation, 
+    number, 
+    setOrbitTarget
+    // cameraFollowPosition, 
+    // setCameraFollowPosition
+}) {
 
     const [ inHoleSound ] = useState(() => new Audio("./audio/ball_inHole.mp3"))
 
@@ -37,6 +43,10 @@ export default function Course({position, rotation, number, setOrbitTarget, came
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
             inHoleSound.play()
+            inHoleSound.onended(() => {
+                // Hide current ball
+
+            })
             
             
             if (currentLevel < 9) {

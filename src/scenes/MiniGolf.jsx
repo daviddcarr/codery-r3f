@@ -1,12 +1,11 @@
 import * as THREE from 'three'
-import { useState, useRef, createRef } from 'react'
+import { useState, useRef, createRef, useEffect } from 'react'
 import { extend, useFrame } from '@react-three/fiber'
 import { OrbitControls, Environment, shaderMaterial } from '@react-three/drei'
 import { EffectComposer, DepthOfField } from '@react-three/postprocessing'
 import { Physics } from '@react-three/rapier'
 import { useMiniGolfGame } from '../stores/useMiniGolfGame'
-
-import { useControls } from "leva"
+import useCodery from '../stores/useCodery'
 
 import Course from '../models/mini-golf/Courses'
 // import Colosseum from '../models/mini-golf/Colosseum'
@@ -54,6 +53,12 @@ const oceanPlanes = [
 ]
 
 export default function MiniGolf() {
+
+  const [ 
+    setIsLoading 
+  ] = useCodery((state) => [
+      state.setIsLoading
+  ])
 
     const [ 
         cameraMode, 
@@ -107,6 +112,10 @@ export default function MiniGolf() {
 
     extend({ WaveMaterial })
     
+    useEffect(() => {
+        setIsLoading(false)
+    }, [])
+
     return (
         <>
 
@@ -177,16 +186,6 @@ export default function MiniGolf() {
                 )
             })
             }
-
-            {/* <mesh 
-              position={[0, -1.2, 0]}
-              rotation={[-Math.PI / 2, 0, 0]}
-              >
-              <planeGeometry args={[50, 50, 2000, 2000]} />
-              <waveMaterial ref={waveMaterial} />
-            </mesh> */}
-
-            
 
         </>
     )

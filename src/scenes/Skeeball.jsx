@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
     OrbitControls,
     Effects,
@@ -9,19 +9,26 @@ import {
 } from '@react-three/rapier'
 
 import SkeeballLights from '../lights/SkeeballLights'
-import SkeeballLane from '../models/SkeeballLane'
-import SkeeballObstacle from '../models/SkeeballObstacle'
-import SkeeballPlayer from '../models/SkeeballPlayer'
-import SkeeballRings from '../models/SkeeballRings'
+import SkeeballLane from '../models/skeeball/SkeeballLane'
+import SkeeballObstacle from '../models/skeeball/SkeeballObstacle'
+import SkeeballPlayer from '../models/skeeball/SkeeballPlayer'
+import SkeeballRings from '../models/skeeball/SkeeballRings'
 import GiantColumns from '../models/GiantColumns'
 
 import useSkeeballGame from '../stores/useSkeeballGame'
+import useCodery from '../stores/useCodery'
 
 const debug = false
 const debugCameraPos = [0, -30, -90]
 
 
 export default function Skeeball() {
+
+    const [ 
+        setIsLoading 
+      ] = useCodery((state) => [
+          state.setIsLoading
+      ])
 
     const [ hasScored, setHasScored ] = useState(false)
     const [ score, setScore ] = useState(0)
@@ -41,6 +48,10 @@ export default function Skeeball() {
     const resetHasScored = () => {
         setHasScored(false)
     }
+
+    useEffect(() => {
+        setIsLoading(false)
+    }, [])
 
     return <>
 

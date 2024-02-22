@@ -9,7 +9,7 @@ import {
 } from '@react-three/rapier'
 
 
-export default function SkeeballRings({ position, rotation, scale, collisionFunction, animated}) {
+export default function SkeeballRings({ position, rotation, scale, collisionFunction }) {
 
 
     return (

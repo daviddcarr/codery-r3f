@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware'
 
-export default create( subscribeWithSelector( ( set, get ) => {
+const useSkeeballGame = create( subscribeWithSelector( ( set ) => {
     return {
         playerScore: 0,
         addToPlayerScore: (points) => {
@@ -14,3 +14,6 @@ export default create( subscribeWithSelector( ( set, get ) => {
         }
     }
 } ) )
+
+
+export default useSkeeballGame
