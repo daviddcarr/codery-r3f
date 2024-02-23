@@ -30,6 +30,8 @@ export default function SkeeballUI() {
 
     return (
         <div className="absolute inset-0 w-full h-full pointer-events-none">
+
+
             <div className="flex justify-between absolute bottom-0 w-full p-4 items-center">
               <div className="flex gap-2">
                 <button

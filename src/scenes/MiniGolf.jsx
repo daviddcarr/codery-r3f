@@ -170,7 +170,7 @@ export default function MiniGolf() {
 
 
             <SoldierHead
-              position={[-15, 1.75, 5]}
+              position={[-15, 1, 5]}
               scale={[0.08, 0.08, 0.08]}
               rotation={[0, Math.PI / 3, 0]}
               />
