@@ -31,6 +31,30 @@ export default function SkeeballUI() {
     return (
         <div className="absolute inset-0 w-full h-full pointer-events-none">
 
+          {!tooltipClosed && (
+            <div className="absolute max-w-96 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-purple text-white p-5 pt-6 rounded">
+                <h2 className="text-3xl mb-6">Quick Guide</h2>
+
+                <ul className="space-y-4">
+                    <li><div className="flex items-center gap-3"><div><GiPlayButton className="text-[40px]" /></div> <span>Enable Play  Mode, Click and Drag on the ball to configure your swing!</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><GiPauseButton className="text-[40px]" /></div> <span>Pause the game by clicking the pause button, Free Camera mode only works in pause mode.</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><LuRotate3D className="text-[40px]" /></div> <span>Enable Free Camera Mode, Click and drag to move the camera around. Game will pause when in free camera mode.</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><LuFocus className="text-[40px]" /></div> <span>Enable Follow Camera Mode, Camera will follow the ball.</span></div></li>
+                </ul>
+
+              <div className="flex justify-center w-full mt-4">
+
+                <button
+                  className="pointer-events-auto bg-gray-700 hover:bg-yellow text-white hover:text-black p-2 pt-3 rounded-md mt-4"
+                  onClick={() => setTooltipClosed(true)}
+                  >
+                  Close
+                </button>
+              </div>
+
+            </div>
+
+          )}
 
             <div className="flex justify-between absolute bottom-0 w-full p-4 items-center">
               <div className="flex gap-2">
@@ -64,9 +88,6 @@ export default function SkeeballUI() {
                     )}
                 </button>
               </div>
-              { !tooltipClosed && <div className="bg-blue-400 text-white p-2 rounded-md">
-                <p><strong>Tip:</strong> Click and drag on the ball in Play Mode to start!</p>
-              </div> }
               <div className="bg-white p-2 pt-3 rounded-md">
                 <p className="text-black">Stroke Count: { gameState[currentLevel-1].strokes }</p>
               </div>
