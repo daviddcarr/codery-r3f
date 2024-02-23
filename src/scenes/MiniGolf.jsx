@@ -9,6 +9,7 @@ import useCodery from '../stores/useCodery'
 
 import Course from '../models/mini-golf/Courses'
 // import Colosseum from '../models/mini-golf/Colosseum'
+import SoldierHead from '../models/mini-golf/SoldierHead'
 
 import waveVertexShader from '../shaders/waves/vertex.glsl'
 import waveFragmentShader from '../shaders/waves/fragment.glsl'
@@ -166,6 +167,13 @@ export default function MiniGolf() {
                 setCameraFollowPosition={setCameraFollowPosition} />
 
             </Physics>
+
+
+            <SoldierHead
+              position={[-15, 1.75, 5]}
+              scale={[0.08, 0.08, 0.08]}
+              rotation={[0, Math.PI / 3, 0]}
+              />
 
             {/* Ocean Plane */}
 

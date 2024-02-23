@@ -91,7 +91,6 @@ export const useMiniGolfGame = create((set) => {
         addStroke: () => {
             set((state) => {
                 const newGameState = [...state.gameState]
-                console.log("Game State", newGameState)
                 newGameState[state.currentLevel-1].strokes++
                 return { gameState: newGameState }
             })

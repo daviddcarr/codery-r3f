@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 
 import { Canvas } from '@react-three/fiber'
+import { useProgress } from '@react-three/drei'
 
 import Intro from './scenes/Intro'
 import Skeeball from './scenes/Skeeball'
@@ -11,6 +12,8 @@ import MiniGolfUI from './ui/MiniGolfUI'
 import useCodery from './stores/useCodery'
 
 function App() {
+
+  const progress = useProgress()
 
   const [ 
     currentScene,
@@ -26,21 +29,34 @@ function App() {
 
   return (
     <div className='h-screen w-full'>
-      { isLoading && (
+      { isLoading &&
+       (
         <div className={`opacity-100 fixed z-50 w-full h-screen bg-black flex justify-center items-center `}>
           <div className="loading-container relative h-[300px] w-[300px]">
               <div className="loading-animation max-w-[300px] w-full bg-contain h-[300px] bg-no-repeat bg-center">
                   <img src="/gif/hello-loading.gif" width="300" height="300" alt='loading' />
+              </div>
+              <div className="loading-bar max-w-[300px] w-full h-[5px] bg-slate-500 rounded">
+                  <div 
+                    className={`loading-bar-inner h-[5px] bg-purple rounded`}
+                    style={{ width: `${progress.loaded}%` }}
+                    ></div>
               </div>
           </div>
       </div>
       )}
         <Suspense
           fallback={
-            <div className={`opacity-100 fixed z-50 w-full h-screen bg-black flex justify-center items-center `}>
+            <div className={`opacity-100 fixed z-100 w-full h-screen bg-black flex justify-center items-center `}>
                 <div className="loading-container relative h-[300px] w-[300px]">
                     <div className="loading-animation max-w-[300px] w-full bg-contain h-[300px] bg-no-repeat bg-center">
                         <img src="/gif/hello-loading.gif" width="300" height="300" alt='loading' />
+                    </div>
+                    <div className="loading-bar max-w-[300px] w-full h-[5px] bg-slate-500 rounded">
+                        <div 
+                          className={`loading-bar-inner h-[5px] bg-purple rounded`}
+                          style={{ width: `${progress.loaded}%` }}
+                          ></div>
                     </div>
                 </div>
             </div>

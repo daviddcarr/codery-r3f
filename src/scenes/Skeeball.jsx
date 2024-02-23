@@ -13,7 +13,7 @@ import SkeeballLane from '../models/skeeball/SkeeballLane'
 import SkeeballObstacle from '../models/skeeball/SkeeballObstacle'
 import SkeeballPlayer from '../models/skeeball/SkeeballPlayer'
 import SkeeballRings from '../models/skeeball/SkeeballRings'
-import GiantColumns from '../models/GiantColumns'
+import GiantColumns from '../models/skeeball/GiantColumns'
 
 import useSkeeballGame from '../stores/useSkeeballGame'
 import useCodery from '../stores/useCodery'
@@ -37,7 +37,6 @@ export default function Skeeball() {
 
     const updateScore = (value) => {
         if (!hasScored) {
-            console.log('updateScore ' + (score + value))
             setScore(score + value)
             setHasScored(true)
 

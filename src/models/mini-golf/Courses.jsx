@@ -43,11 +43,10 @@ export default function Course({
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
             inHoleSound.play()
-            inHoleSound.onended(() => {
-                // Hide current ball
+            // inHoleSound.onended(() => {
+            //     // Hide current ball
 
-            })
-            
+            // })
             
             if (currentLevel < 9) {
                 console.log("Course Complete, triggering next level")
@@ -148,7 +147,6 @@ export function CourseFlag({position, rotation}) {
     const gltf = useGLTF('./gltf/mini-golf/Goal_Flag.glb')
 
     const mesh = useMemo(() => {
-        console.log(gltf.nodes)
         return gltf.nodes
     }, [gltf])
 
@@ -348,7 +346,6 @@ export function CourseThree(props) {
     ]
 
     const mesh = useMemo(() => {
-        console.log(gltf.nodes)
         return gltf.nodes
     }, [gltf])
 
@@ -421,7 +418,6 @@ export function CourseFour(props) {
     ]
 
     const mesh = useMemo(() => {
-        console.log(gltf.nodes)
         return gltf.nodes
     }, [gltf])
 
@@ -516,7 +512,6 @@ export function CourseNine(props) {
     ]
 
     const mesh = useMemo(() => {
-        console.log(gltf.nodes)
         return gltf.nodes
     }, [gltf])
 
@@ -600,7 +595,6 @@ export function CourseSeven(props) {
     ]
 
     const mesh = useMemo(() => {
-        console.log(gltf.nodes)
         return gltf.nodes
     }, [gltf])
 
@@ -908,7 +902,6 @@ export function CourseEight(props) {
     ]
 
     const mesh = useMemo(() => {
-        console.log(gltf.nodes)
         return gltf.nodes
     }, [gltf])
 

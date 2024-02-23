@@ -14,7 +14,7 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'off',
-    "react/no-unknown-property": ["error", { ignore: ["geometry", "material", "castShadow", "receiveShadow", "position", "scale", "rotation", "visible", "object", "args", "intensity", "shadow-mapSize", "attach"] }],
+    "react/no-unknown-property": ["error", { ignore: ["geometry", "material", "castShadow", "receiveShadow", "position", "scale", "rotation", "visible", "object", "args", "intensity", "shadow-mapSize", "attach", "map", "transparent", "threshold", "strength", "bloomFactor", "rotation-x", "rotation-y", "rotation-z"] }],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

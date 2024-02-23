@@ -5,16 +5,7 @@ import { useGLTF } from '@react-three/drei'
 export default function Colosseum(props) {
     const colosseum = useGLTF('./gltf/mini-golf/Colosseum.glb')
 
-    useEffect(() => {
-        console.log(colosseum.nodes)
-    }, [colosseum])
-
     return (
-        // <primitive
-        //     object={colosseum.scene}
-        //     {...props}
-        //     />
-
         <group
             {...props} 
             >

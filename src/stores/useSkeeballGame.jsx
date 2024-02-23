@@ -6,7 +6,6 @@ const useSkeeballGame = create( subscribeWithSelector( ( set ) => {
         playerScore: 0,
         addToPlayerScore: (points) => {
             set( (state) => {
-                console.log('Core: addToPlayerScore ' + (state.playerScore + points))
                 return {
                     playerScore: state.playerScore + points
                 }

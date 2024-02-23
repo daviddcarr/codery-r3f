@@ -47,9 +47,6 @@ export function FirstObstacle({ range, speed }) {
         }
     })
 
-    console.log("first obstacle")
-    console.log( pos )
-
     return (
         <RigidBody
             ref={ ref }
@@ -75,9 +72,6 @@ export function SecondObstacle({ range, speed }) {
     const secondRef = useRef()
     const position = [ 0, -5.35, -27 ]
     const rotation = [(Math.PI * -0.14), 0, 0]
-
-    console.log("second obstacle")
-    console.log( position )
 
     const [ timeOffset ] = useState(Math.random() * Math.PI * 2)
 
