@@ -12,7 +12,7 @@ const useSkeeballGame = create( subscribeWithSelector( ( set ) => {
                 }
             } )
         },
-        maxAttempts: 10,
+        maxAttempts: 6,
         playerAttempts: 0,
         addPlayerAttempt: () => {
             set( (state) => {
@@ -42,7 +42,8 @@ const useSkeeballGame = create( subscribeWithSelector( ( set ) => {
             set( () => {
                 return {
                     playerScore: 0,
-                    playerAttempts: 0
+                    playerAttempts: 0,
+                    gameEnded: false
                 }
             } )
         }

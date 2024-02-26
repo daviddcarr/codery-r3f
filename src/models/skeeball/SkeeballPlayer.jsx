@@ -83,6 +83,7 @@ export default function SkeeballPlayer(props) {
         // if player position goes below -15, reset the player to static and move it back to the start
         if (player.current.translation().y < -50) {
             setIsStatic(true)
+            addPlayerAttempt()
             props.resetFunction()
             player.current.setTranslation({
                 x: 0,
@@ -94,7 +95,6 @@ export default function SkeeballPlayer(props) {
     })
 
     const Launch = () => {
-        addPlayerAttempt()
         setIsStatic(false)
     }
 
@@ -107,10 +107,6 @@ export default function SkeeballPlayer(props) {
                 type={isStatic ? "fixed" : ""}
                 colliders="ball"
                 >
-                {/* <primitive
-                    object={ playerModel.scene }
-                    castShadow={true}
-                    /> */}
                 <mesh
                     onPointerUp={ !gameEnded && Launch }
                     geometry={playerModel.nodes.VenusHead.geometry}
