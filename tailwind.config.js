@@ -11,6 +11,10 @@ export default {
         'yellow': '#FFCC00',
         'teal': '#21FFE1',
       },
+      fontFamily: {
+        'heading': ['Haymaker', 'sans-serif'],
+        'body': ['Ubuntu', 'sans-serif'],
+      },
     },
   },
   plugins: [],

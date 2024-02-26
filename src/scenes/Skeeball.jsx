@@ -33,7 +33,17 @@ export default function Skeeball() {
     const [ hasScored, setHasScored ] = useState(false)
     const [ score, setScore ] = useState(0)
 
-    const addToPlayerScore = useSkeeballGame((state) => state.addToPlayerScore)
+    const [
+        addToPlayerScore,
+        // maxAttempts,
+        // playerAttempts,
+        //addPlayerAttempt
+    ] = useSkeeballGame((state) => [
+        state.addToPlayerScore,
+        // state.maxAttempts,
+        // state.playerAttempts,
+        // state.addPlayerAttempt
+    ])
 
     const updateScore = (value) => {
         if (!hasScored) {

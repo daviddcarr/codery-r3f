@@ -33,13 +33,13 @@ export default function SkeeballUI() {
 
           {!tooltipClosed && (
             <div className="absolute max-w-96 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-purple text-white p-5 pt-6 rounded">
-                <h2 className="text-3xl mb-6">Quick Guide</h2>
+                <h2 className="text-3xl mb-6 font-heading">Quick Guide</h2>
 
                 <ul className="space-y-4">
-                    <li><div className="flex items-center gap-3"><div><GiPlayButton className="text-[40px]" /></div> <span>Enable Play  Mode, Click and Drag on the ball to configure your swing!</span></div></li>
-                    <li><div className="flex items-center gap-3"><div><GiPauseButton className="text-[40px]" /></div> <span>Pause the game by clicking the pause button, Free Camera mode only works in pause mode.</span></div></li>
-                    <li><div className="flex items-center gap-3"><div><LuRotate3D className="text-[40px]" /></div> <span>Enable Free Camera Mode, Click and drag to move the camera around. Game will pause when in free camera mode.</span></div></li>
-                    <li><div className="flex items-center gap-3"><div><LuFocus className="text-[40px]" /></div> <span>Enable Follow Camera Mode, Camera will follow the ball.</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><GiPlayButton className="text-[40px]" /></div> <span className="font-body">Enable Play  Mode, Click and Drag on the ball to configure your swing!</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><GiPauseButton className="text-[40px]" /></div> <span className="font-body">Pause the game by clicking the pause button.</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><LuFocus className="text-[40px]" /></div> <span className="font-body">Enable Follow Camera Mode, Camera will follow the ball.</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><LuRotate3D className="text-[40px]" /></div> <span className="font-body">Enable Free Camera Mode, Camera will not follow the ball, but can be moved when game is paused.</span></div></li>
                 </ul>
 
               <div className="flex justify-center w-full mt-4">

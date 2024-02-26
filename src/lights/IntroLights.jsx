@@ -23,7 +23,7 @@ export default function IntroLights() {
     return (
         <>
             <spotLight
-                args={ [ colors.white, 3, 150, 2.5, 1, 1 ] }
+                args={ [ colors.white, 100, 150, 2.5, 1, 1 ] }
                 position={ [ 0, 10, 0 ] }
                 target={ spotlightTarget }
                 />

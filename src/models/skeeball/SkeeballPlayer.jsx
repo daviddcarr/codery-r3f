@@ -11,11 +11,27 @@ import {
     RigidBody,
 } from "@react-three/rapier"
 
+import useSkeeballGame from '../../stores/useSkeeballGame'
+
 export default function SkeeballPlayer(props) {
 
     const player = useRef()
     const playerObject = useRef()
     const [ isStatic, setIsStatic ] = useState(true)
+
+    const [
+        //addToPlayerScore,
+        // maxAttempts,
+        // playerAttempts,
+        addPlayerAttempt,
+        gameEnded
+    ] = useSkeeballGame((state) => [
+        //state.addToPlayerScore,
+        // state.maxAttempts,
+        // state.playerAttempts,
+        state.addPlayerAttempt,
+        state.gameEnded
+    ])
 
     // Camera smoothing states
     const [ smoothedCameraPosition ] = useState(() => new THREE.Vector3(10, 10, 10) )
@@ -78,6 +94,7 @@ export default function SkeeballPlayer(props) {
     })
 
     const Launch = () => {
+        addPlayerAttempt()
         setIsStatic(false)
     }
 
@@ -95,7 +112,7 @@ export default function SkeeballPlayer(props) {
                     castShadow={true}
                     /> */}
                 <mesh
-                    onPointerUp={ Launch }
+                    onPointerUp={ !gameEnded && Launch }
                     geometry={playerModel.nodes.VenusHead.geometry}
                     material={playerModel.nodes.VenusHead.material}
                     receiveShadow

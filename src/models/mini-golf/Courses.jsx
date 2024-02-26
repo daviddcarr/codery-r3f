@@ -24,12 +24,14 @@ export default function Course({
         setNextLevel,
         levelEnded,
         setLevelEnded,
+        isHidden,
         setIsHidden,
     ] = useMiniGolfGame(state => [
         state.currentLevel,
         state.setNextLevel,
         state.levelEnded,
         state.setLevelEnded,
+        state.isHidden,
         state.setIsHidden,
     ])
 
@@ -43,10 +45,6 @@ export default function Course({
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
             inHoleSound.play()
-            // inHoleSound.onended(() => {
-            //     // Hide current ball
-
-            // })
             
             if (currentLevel < 9) {
                 console.log("Course Complete, triggering next level")
@@ -69,63 +67,99 @@ export default function Course({
         case 1:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseOne position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
         case 2:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseTwo position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
                 )
         case 3:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseThree position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
                 )
         case 4:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseFour position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
         case 5:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseFive position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
         case 6:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseSix position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
         case 7:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseSeven position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
         case 8:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseEight position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
         case 9:
             return (
                 <>
-                    <Ball setOrbitTarget={setOrbitTarget} />
+                    {
+                        !isHidden && (
+                            <Ball setOrbitTarget={setOrbitTarget} />
+                        )
+                    }
                     <CourseNine position={position} rotation={rotation} coursePhysics={coursePhysics} endLevel={endLevel} />
                 </>
             )
