@@ -29,6 +29,15 @@ const useSkeeballGame = create( subscribeWithSelector( ( set ) => {
             } )
         },
 
+        playerStartPosition: 0,
+        setPlayerStartPosition: (position) => {
+            set( () => {
+                return {
+                    playerStartPosition: position
+                }
+            } )
+        },
+
         gameEnded : false,
         setGameEnded : () => {
             set( () => {

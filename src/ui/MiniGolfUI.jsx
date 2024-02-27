@@ -1,7 +1,7 @@
 import { useMiniGolfGame } from "../stores/useMiniGolfGame"
 
 import { GiPauseButton, GiPlayButton } from 'react-icons/gi'
-import { LuRotate3D, LuFocus } from "react-icons/lu";
+import { LuRotate3D, LuFocus, LuInfo } from "react-icons/lu";
 
 import { useState } from 'react'
 
@@ -61,7 +61,7 @@ export default function SkeeballUI() {
         <div className="absolute inset-0 w-full h-full pointer-events-none">
 
           {!tooltipClosed && (
-            <div className="absolute max-w-96 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-purple text-white p-5 pt-6 rounded">
+            <div className="absolute max-w-96 w-[90vw] z-50 top-0 left-1/2 translate-x-[-50%] bg-purple text-white p-5 pt-6 rounded-b">
                 <h2 className="text-3xl mb-6 font-heading">Quick Guide</h2>
 
                 <ul className="space-y-4">
@@ -147,9 +147,10 @@ export default function SkeeballUI() {
                     )}
                 </button>
               </div>
-              <div className="bg-white p-2 pt-3 rounded-md">
-                <p className="text-black">Stroke Count: { gameState[currentLevel-1].strokes }</p>
-              </div>
+              <button className={`${tooltipClosed ? 'bg-gray-700 text-white' : 'bg-teal text-black'} hover:bg-purple hover:text-white  p-2 rounded-md pointer-events-auto`}
+                onClick={() => setTooltipClosed(!tooltipClosed)}>
+                <LuInfo className="w-6 h-6" />
+              </button>
             </div>
 
 

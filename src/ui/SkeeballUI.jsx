@@ -11,13 +11,17 @@ export default function SkeeballUI() {
         maxAttempts,
         playerAttempts,
         gameEnded,
-        resetGame
+        resetGame,
+        playerStartPosition,
+        setPlayerStartPosition
      ] = useSkeeballGame((state) => [
         state.playerScore,
         state.maxAttempts,
         state.playerAttempts,
         state.gameEnded,
-        state.resetGame
+        state.resetGame,
+        state.playerStartPosition,
+        state.setPlayerStartPosition
      ])
 
     const shareScore = () => {
@@ -27,7 +31,7 @@ export default function SkeeballUI() {
     }
 
     return (
-        <div className="fixed inset-0 w-full h-screen z-50 pointer-events-none">
+        <div className="fixed inset-0 w-full h-screen pointer-events-none">
             {gameEnded && (
             <div className="absolute max-w-96 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-purple text-white p-5 pt-6 rounded">
                 <h2 className="text-3xl mb-6 font-heading">Final Score</h2>
@@ -58,16 +62,29 @@ export default function SkeeballUI() {
 
           )}
 
-            <div className="absolute top-4 left-0 w-full text-white text-center text-2xl">
+            <div className="absolute top-4 left-0 w-full text-white text-center text-lg md:text-2xl">
                 <span>
                     Score: { playerScore }
                 </span>
             </div>
 
-            <div className="absolute bottom-4 left-0 w-full text-white text-center text-2xl">
+            <div className="absolute bottom-4 top-4 right-4 text-white text-center text-lg md:text-2xl">
                 <span>
                     { playerAttempts } / { maxAttempts }
                 </span>
+            </div>
+
+            {/* Add Range Slider to update Player Position */}
+            <div className="md:hidden pointer-events-auto absolute bottom-0 left-0 right-0 w-full bg-purple p-3 pt-4">
+                <input
+                    type="range"
+                    min="-1"
+                    max="1"
+                    step="0.01"
+                    value={playerStartPosition}
+                    onChange={(e) => setPlayerStartPosition(e.target.value)}
+                    className="w-full appearance-none h-2"
+                    />
             </div>
         </div>
     )

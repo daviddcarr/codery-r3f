@@ -64,11 +64,11 @@ export default function MiniGolf() {
     const [ 
         cameraMode, 
         gamePaused,
-        currentLevel,
+        currentLevel        
       ] = useMiniGolfGame((state) => [ 
         state.cameraMode,
         state.gamePaused,
-        state.currentLevel,
+        state.currentLevel
       ])
 
     const debugObject = {}
