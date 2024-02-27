@@ -35,14 +35,8 @@ export default function Skeeball() {
 
     const [
         addToPlayerScore,
-        // maxAttempts,
-        // playerAttempts,
-        //addPlayerAttempt
     ] = useSkeeballGame((state) => [
         state.addToPlayerScore,
-        // state.maxAttempts,
-        // state.playerAttempts,
-        // state.addPlayerAttempt
     ])
 
     const updateScore = (value) => {

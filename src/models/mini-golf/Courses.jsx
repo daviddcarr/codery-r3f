@@ -26,6 +26,8 @@ export default function Course({
         setLevelEnded,
         isHidden,
         setIsHidden,
+        gameState,
+        setGameEnded
     ] = useMiniGolfGame(state => [
         state.currentLevel,
         state.setNextLevel,
@@ -33,26 +35,28 @@ export default function Course({
         state.setLevelEnded,
         state.isHidden,
         state.setIsHidden,
+        state.gameState,
+        state.setGameEnded
     ])
 
     const endLevel = (event) => {
-
         const collidedBody = event.colliderObject
-        
-        
+    
         if (collidedBody.name === "player" && !levelEnded) {
             setLevelEnded(true)
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
             inHoleSound.play()
             
-            if (currentLevel < 9) {
+            if (currentLevel < gameState.length) {
                 console.log("Course Complete, triggering next level")
                 setIsHidden(true)
                 setNextLevel();
+            } else {
+                console.log("Game Complete")
+                setGameEnded(true)
             }
         }
-
     }
 
     const coursePhysics = {

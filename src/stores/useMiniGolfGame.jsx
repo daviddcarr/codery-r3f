@@ -42,12 +42,12 @@ export const useMiniGolfGame = create((set) => {
             hole: 8,
             par: 2,
             strokes: 0,
-        },
-        {
-            hole: 9,
-            par: 2,
-            strokes: 0,
-        },
+        }
+        // {
+        //     hole: 9,
+        //     par: 2,
+        //     strokes: 0,
+        // },
 
     ]
 
@@ -95,7 +95,24 @@ export const useMiniGolfGame = create((set) => {
                 return { gameState: newGameState }
             })
         },
-        getGameState: () => gameState
+        getGameState: () => gameState,
+
+        gameEnded: false,
+        setGameEnded: () => set({ gameEnded: true }),
+
+        resetGame: () => {
+            gameState.forEach((hole) => {
+                hole.strokes = 0
+            })
+
+            set({ 
+                gameState: gameState,
+                currentLevel: 1,
+                cameraPosition: [0.25, 0.25, 0],
+                levelEnded: false,
+                gameEnded: false 
+            })
+        }
     }
 
 })

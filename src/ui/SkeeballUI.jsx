@@ -1,6 +1,10 @@
+import { useState } from "react"
+
 import useSkeeballGame from "../stores/useSkeeballGame"
 
 export default function SkeeballUI() {
+
+    const [ scoreCopied, setScoreCopied ] = useState(false)
 
     const [
         playerScore,
@@ -16,6 +20,12 @@ export default function SkeeballUI() {
         state.resetGame
      ])
 
+    const shareScore = () => {
+        // Save score mesage to clipboard
+        navigator.clipboard.writeText(`I just scored ${playerScore} on Lapero Skeeball!`)
+        setScoreCopied(true)
+    }
+
     return (
         <div className="fixed inset-0 w-full h-screen z-50 pointer-events-none">
             {gameEnded && (
@@ -28,14 +38,19 @@ export default function SkeeballUI() {
 
               <div className="flex justify-center w-full mt-4 gap-2">
                 <button
-                  className="pointer-events-auto bg-gray-700 hover:bg-yellow text-white hover:text-black p-2 pt-3 rounded-md mt-4"
-                  onClick={() => resetGame()}
-                  >
-                  Reset
+                    className="pointer-events-auto bg-gray-700 hover:bg-yellow text-white hover:text-black p-2 pt-3 rounded-md mt-4"
+                    onClick={() => {
+                        resetGame()
+                        setScoreCopied(false)
+                    }}
+                    >
+                    Reset
                 </button>
                 <button
-                    className="pointer-events-none bg-gray-700 hover:bg-yellow text-white hover:text-black p-2 pt-3 rounded-md mt-4 disable opacity-20">
-                    Share
+                    className={`pointer-events-auto ${scoreCopied ? 'bg-teal text-black' : 'bg-gray-700 text-white'} hover:bg-yellow hover:text-black p-2 pt-3 rounded-md mt-4`}
+                    onClick={() => shareScore()}
+                    >
+                    { !scoreCopied ? 'Share' : 'Copied!' }
                 </button>
               </div>
 

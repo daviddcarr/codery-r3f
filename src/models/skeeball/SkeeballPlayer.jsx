@@ -1,6 +1,7 @@
 import {
     useRef,
-    useState
+    useState,
+    useMemo
 } from "react"
 import * as THREE from "three"
 import { useFrame } from "@react-three/fiber"
@@ -19,29 +20,41 @@ export default function SkeeballPlayer(props) {
     const playerObject = useRef()
     const [ isStatic, setIsStatic ] = useState(true)
 
+    // Reset Bezier Points
+    const endPoint = useMemo(() => new THREE.Vector3(0, 2.01, 2), []) 
+    
     const [
-        //addToPlayerScore,
-        // maxAttempts,
-        // playerAttempts,
         addPlayerAttempt,
         gameEnded
     ] = useSkeeballGame((state) => [
-        //state.addToPlayerScore,
-        // state.maxAttempts,
-        // state.playerAttempts,
         state.addPlayerAttempt,
         state.gameEnded
     ])
-
+    
     // Camera smoothing states
     const [ smoothedCameraPosition ] = useState(() => new THREE.Vector3(10, 10, 10) )
     const [ smoothedCameraTarget ] = useState(() => new THREE.Vector3() )
+    const [resetAnimation, setResetAnimation] = useState({
+        active: false, 
+        progress: 0
+    })
+    const [lastCameraPosition, setLastCameraPosition] = useState(new THREE.Vector3())
     
     const playerModel = useGLTF('./gltf/Skeeball_VenusHead.glb')
 
+    const quadraticBezier = (p0, p1, p2, t) => {
+        const p3 = p0.lerp(p1, t)
+        const p4 = p1.lerp(p2, t)
+        const p5 = p3.lerp(p4, t)
+        return p5
+    }
+
     useFrame(({ camera, pointer }, delta) => {
-        
-        if ( ! props.debug ) {
+        if (! props.debug) {
+            
+            /**
+             * Player Choosing Start Position
+             */
             if ( isStatic ) {
                 if (player.current) {
                     const range = 2
@@ -56,7 +69,7 @@ export default function SkeeballPlayer(props) {
                     })
                 }
             }
-
+    
             /**
              * Camera
              */
@@ -73,25 +86,53 @@ export default function SkeeballPlayer(props) {
             cameraTarget.y += 0.25
             cameraTarget.x = isStatic ? 0 : cameraTarget.x
     
-            smoothedCameraPosition.lerp( cameraPosition, 5 * delta )
-            smoothedCameraTarget.lerp( cameraTarget, 5 * delta )
-    
-            camera.position.copy( smoothedCameraPosition )
-            camera.lookAt( smoothedCameraTarget )
-        }
+            /**
+             * Reset Camera to Start
+             */
+            if (resetAnimation.active) {
+                const progress = resetAnimation.progress + delta * 0.5
+                if (progress < 1) {
+                    // Find the point halfway between lastCameraPosition and endPoint
+                    const controlPoint = lastCameraPosition.clone().lerp(endPoint, 0.5)
+                    controlPoint.y = 5
+                    
+                    camera.position.copy(quadraticBezier(lastCameraPosition.clone(), controlPoint.clone(), endPoint.clone(), progress))
+                    setResetAnimation({active: true, progress})
+                } else {
+                    console.log("Reset Animation Complete")
+                    setResetAnimation({active: false, progress: 0})
+                    setLastCameraPosition(new THREE.Vector3())
+                
+                    smoothedCameraPosition.copy(camera.position);
+                    smoothedCameraTarget.copy(cameraTarget);
+                }
 
-        // if player position goes below -15, reset the player to static and move it back to the start
-        if (player.current.translation().y < -50) {
-            setIsStatic(true)
-            addPlayerAttempt()
-            props.resetFunction()
-            player.current.setTranslation({
-                x: 0,
-                y: 0.1,
-                z: 0
-            })
-        }
+            } 
+            /**
+             * Follow Camera
+             */
+            else {
+                smoothedCameraPosition.lerp( cameraPosition, 5 * delta )
+                smoothedCameraTarget.lerp( cameraTarget, 5 * delta )
         
+                camera.position.copy( smoothedCameraPosition )
+                camera.lookAt( smoothedCameraTarget )
+            }
+    
+            /**
+             * Detect Player Reset
+             */
+            // if player position goes below -15, reset the player to static and move it back to the start
+            if (player.current.translation().y < -50) {
+                setIsStatic(true)
+                addPlayerAttempt()
+                props.resetFunction()
+                setLastCameraPosition(cameraPosition)
+                setResetAnimation({active: true, progress: 0})
+                console.log("Player Reset, Start Animation")
+            }
+            
+        }
     })
 
     const Launch = () => {

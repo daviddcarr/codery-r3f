@@ -14,7 +14,9 @@ export default function SkeeballUI() {
         setGamePaused,
         toggleGamePaused,
         currentLevel,
-        gameState
+        gameState,
+        gameEnded,
+        resetGame
       ] = useMiniGolfGame((state) => [ 
         state.cameraMode,
         state.toggleCameraMode,
@@ -22,10 +24,37 @@ export default function SkeeballUI() {
         state.setGamePaused,
         state.toggleGamePaused,
         state.currentLevel,
-        state.gameState
+        state.gameState,
+        state.gameEnded,
+        state.resetGame
       ])
 
     const [ tooltipClosed, setTooltipClosed ] = useState(false)
+    const [ scoreCopied, setScoreCopied ] = useState(false)
+
+    const calculateScore = () => {
+        let score = 0
+        for (let i = 0; i < gameState.length; i++) {
+            score += gameState[i].strokes
+        }
+        let par = 0
+        for (let i = 0; i < gameState.length; i++) {
+            par += gameState[i].par
+        }
+
+        return [ score, par ]
+    }
+
+    const shareScore = () => {
+        // Save score mesage to clipboard
+        const [
+          score,
+          par
+        ] = calculateScore()
+
+        navigator.clipboard.writeText(`I just scored ${score} / ${par} on Lapero Mini Golf!`)
+        setScoreCopied(true)
+      }
     
 
     return (
@@ -55,6 +84,36 @@ export default function SkeeballUI() {
             </div>
 
           )}
+
+          {
+            gameEnded && (
+              <div className="absolute max-w-96 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-purple text-white p-5 pt-6 rounded">
+                <h2 className="text-3xl mb-6 font-heading">Final Score</h2>
+
+                <div className="text-6xl font-heading text-center">
+                    { calculateScore()[0] } / { calculateScore()[1] }
+                </div>
+
+              <div className="flex justify-center w-full mt-4 gap-2">
+                <button
+                    className="pointer-events-auto bg-gray-700 hover:bg-yellow text-white hover:text-black p-2 pt-3 rounded-md mt-4"
+                    // TODO: Write a reset function in game store
+                    onClick={() => {
+                        resetGame()
+                    }}
+                    >
+                    Reset
+                </button>
+                <button
+                    className={`pointer-events-auto ${scoreCopied ? 'bg-teal text-black' : 'bg-gray-700 text-white'} hover:bg-yellow hover:text-black p-2 pt-3 rounded-md mt-4`}
+                    onClick={() => shareScore()}
+                    >
+                    { !scoreCopied ? 'Share' : 'Copied!' }
+                </button>
+              </div>
+              </div>
+            )
+          }
 
             <div className="flex justify-between absolute bottom-0 w-full p-4 items-center">
               <div className="flex gap-2">

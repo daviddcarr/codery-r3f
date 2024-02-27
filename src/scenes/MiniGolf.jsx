@@ -170,7 +170,7 @@ export default function MiniGolf() {
 
 
             <SoldierHead
-              position={[-15, 1, 5]}
+              position={[-15, 0, 5]}
               scale={[0.08, 0.08, 0.08]}
               rotation={[0, Math.PI / 3, 0]}
               />
@@ -180,7 +180,7 @@ export default function MiniGolf() {
             {
               oceanPlanes.map((oceanPlane, index) => {
                 
-                const updatedPosition = new THREE.Vector3(oceanPlane.position[0] * 50, oceanPlane.position[1] - 1.2, oceanPlane.position[2] * 50)
+                const updatedPosition = new THREE.Vector3(oceanPlane.position[0] * 50, oceanPlane.position[1] - 2.2, oceanPlane.position[2] * 50)
 
                 return (
                   <mesh
