@@ -26,13 +26,9 @@ export default function SkeeballPlayer(props) {
     const [
         addPlayerAttempt,
         gameEnded,
-        playerStartPosition,
-        setPlayerStartPosition
     ] = useSkeeballGame((state) => [
         state.addPlayerAttempt,
         state.gameEnded,
-        state.playerStartPosition,
-        state.setPlayerStartPosition
     ])
     
     // Camera smoothing states
@@ -64,9 +60,7 @@ export default function SkeeballPlayer(props) {
                     const range = 2
                     const mouseRange = 1.38
 
-                    setPlayerStartPosition(pointer.x)
-
-                    const x = (playerStartPosition * mouseRange) * range
+                    const x = (pointer.x * mouseRange) * range
                     const xClamped = Math.min(Math.max(x, - range), range)
                     
                     player.current.setTranslation({

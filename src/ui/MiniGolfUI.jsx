@@ -61,7 +61,7 @@ export default function SkeeballUI() {
         <div className="absolute inset-0 w-full h-full pointer-events-none">
 
           {!tooltipClosed && (
-            <div className="absolute max-w-96 w-[90vw] z-50 top-0 left-1/2 translate-x-[-50%] bg-purple text-white p-5 pt-6 rounded-b">
+            <div className="absolute max-w-96 w-[90vw] z-20 top-0 left-1/2 translate-x-[-50%] bg-purple text-white p-5 pt-6 rounded-b">
                 <h2 className="text-3xl mb-6 font-heading">Quick Guide</h2>
 
                 <ul className="space-y-4">

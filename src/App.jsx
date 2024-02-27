@@ -28,7 +28,7 @@ function App() {
   ])
 
   return (
-    <div className='h-screen w-full'>
+    <div className='h-screen w-full overscroll-none'>
       { isLoading &&
        (
         <div className={`opacity-100 fixed z-50 w-full h-screen bg-black flex justify-center items-center `}>
@@ -71,6 +71,7 @@ function App() {
               position: [0, 3, 10],
             } }
             shadows
+            className='overscroll-none'
             >
               { currentScene === 0 && <Intro setCurrentScene={ setCurrentScene } /> }
               { currentScene === 1 && <Skeeball setCurrentScene={ setCurrentScene } /> }

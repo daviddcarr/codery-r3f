@@ -12,16 +12,12 @@ export default function SkeeballUI() {
         playerAttempts,
         gameEnded,
         resetGame,
-        playerStartPosition,
-        setPlayerStartPosition
      ] = useSkeeballGame((state) => [
         state.playerScore,
         state.maxAttempts,
         state.playerAttempts,
         state.gameEnded,
         state.resetGame,
-        state.playerStartPosition,
-        state.setPlayerStartPosition
      ])
 
     const shareScore = () => {
@@ -72,19 +68,6 @@ export default function SkeeballUI() {
                 <span>
                     { playerAttempts } / { maxAttempts }
                 </span>
-            </div>
-
-            {/* Add Range Slider to update Player Position */}
-            <div className="md:hidden pointer-events-auto absolute bottom-0 left-0 right-0 w-full bg-purple p-3 pt-4">
-                <input
-                    type="range"
-                    min="-1"
-                    max="1"
-                    step="0.01"
-                    value={playerStartPosition}
-                    onChange={(e) => setPlayerStartPosition(e.target.value)}
-                    className="w-full appearance-none h-2"
-                    />
             </div>
         </div>
     )
