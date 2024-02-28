@@ -12,9 +12,8 @@ export default function Course({
     position, 
     rotation, 
     number, 
-    setOrbitTarget
-    // cameraFollowPosition, 
-    // setCameraFollowPosition
+    setOrbitTarget,
+    fireworksRef
 }) {
 
     const [ inHoleSound ] = useState(() => new Audio("./audio/ball_inHole.mp3"))
@@ -39,10 +38,24 @@ export default function Course({
         state.setGameEnded
     ])
 
-    const endLevel = (event) => {
+    const handleLaunchFireworks = (endPosition) => {
+        if (fireworksRef.current) {            
+            fireworksRef.current.launchFirework(endPosition)
+            setTimeout(() => {
+                fireworksRef.current.launchFirework(endPosition)
+            }, 450)
+            setTimeout(() => {
+                fireworksRef.current.launchFirework(endPosition)
+            }, 1050)
+            
+        }
+    }
+
+    const endLevel = (event, endPosition) => {
         const collidedBody = event.colliderObject
     
         if (collidedBody.name === "player" && !levelEnded) {
+            handleLaunchFireworks(new THREE.Vector3(endPosition[0] / 2, endPosition[1] / 2, endPosition[2] / 2))
             setLevelEnded(true)
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
@@ -71,6 +84,15 @@ export default function Course({
         case 1:
             return (
                 <>
+                    {/* <mesh
+                        position={[0, 1, 0]}
+                        onClick={
+                            handleLaunchFireworks(new THREE.Vector3(-4.52, -0.08, 0))
+                        }
+                        >
+                        <boxGeometry args={[0.25, 0.25, 0.25]} />
+                        <meshStandardMaterial color="green" />
+                    </mesh> */}
                     {
                         !isHidden && (
                             <Ball setOrbitTarget={setOrbitTarget} />
@@ -266,7 +288,7 @@ export function CourseOne(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-4.52, -0.08, 0]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-4.52, -0.08, 0]}
                     />
@@ -335,7 +357,7 @@ export function CourseTwo(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-4.57, -0.08, -2]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-4.57, -0.08, -2]}
                     />
@@ -405,7 +427,7 @@ export function CourseThree(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) =>props.endLevel(event, [-2, -0.08, -4.567]) }
                     args={[0.06, 0.05, 0.05]}
                     // position={[-0.565, -0.06, 0]}
                     position={[-2, -0.08, -4.567]}
@@ -482,9 +504,8 @@ export function CourseFour(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-4.567, -0.08, 0]) }
                     args={[0.06, 0.05, 0.05]}
-                    // position={[-0.565, -0.06, 0]}
                     position={[-4.567, -0.08, 0]}
                     />
                 {/* Course Camera Triggers */}
@@ -576,7 +597,7 @@ export function CourseNine(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-7, -0.58, -0.5665]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-7, -0.58, -0.5665]}
                     />
@@ -659,7 +680,7 @@ export function CourseSeven(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-5.567, -0.36, 0]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-5.567, -0.36, 0]}
                     />
@@ -760,7 +781,7 @@ export function CourseFive(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-5.567, -0.61, 0]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-5.567, -0.61, 0]}
                     />
@@ -865,7 +886,7 @@ export function CourseSix(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-4.567, -0.36, 0]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-4.567, -0.36, 0]}
                     />
@@ -966,7 +987,7 @@ export function CourseEight(props) {
                 {/* Course End Trigger */}
                 <CuboidCollider
                     sensor
-                    onIntersectionEnter={ props.endLevel }
+                    onIntersectionEnter={(event) => props.endLevel(event, [-2.567, -0.08, 0]) }
                     args={[0.06, 0.05, 0.05]}
                     position={[-2.567, -0.08, 0]}
                     />

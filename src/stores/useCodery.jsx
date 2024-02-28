@@ -3,7 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware'
 
 const useCodery = create( subscribeWithSelector( ( set ) => {
     return {
-        currentScene: 1,
+        currentScene: 2,
 
         setCurrentScene: ( scene ) => {
             set( { currentScene: scene } )
