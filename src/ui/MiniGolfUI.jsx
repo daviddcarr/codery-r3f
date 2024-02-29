@@ -1,7 +1,9 @@
 import { useMiniGolfGame } from "../stores/useMiniGolfGame"
 
 import { GiPauseButton, GiPlayButton } from 'react-icons/gi'
-import { LuRotate3D, LuFocus, LuInfo } from "react-icons/lu";
+import { LuRotate3D, LuFocus, LuInfo } from "react-icons/lu"
+import { FaCheckCircle } from "react-icons/fa"
+import { FaArrowRotateRight } from "react-icons/fa6"
 
 import { useState } from 'react'
 
@@ -12,6 +14,7 @@ export default function SkeeballUI() {
         toggleCameraMode,
         gamePaused,
         setGamePaused,
+        ballIsReady,
         toggleGamePaused,
         currentLevel,
         gameState,
@@ -22,6 +25,7 @@ export default function SkeeballUI() {
         state.toggleCameraMode,
         state.gamePaused,
         state.setGamePaused,
+        state.ballIsReady,
         state.toggleGamePaused,
         state.currentLevel,
         state.gameState,
@@ -67,6 +71,7 @@ export default function SkeeballUI() {
                 <ul className="space-y-4">
                     <li><div className="flex items-center gap-3"><div><GiPlayButton className="text-[40px]" /></div> <span className="font-body">Enable Play  Mode, Click and Drag on the ball to configure your swing!</span></div></li>
                     <li><div className="flex items-center gap-3"><div><GiPauseButton className="text-[40px]" /></div> <span className="font-body">Pause the game by clicking the pause button.</span></div></li>
+                    <li><div className="flex items-center gap-3"><div><FaCheckCircle className="text-[40px]" /></div> <span className="font-body">The green checkmark indicates that the ball is ready!</span></div></li>
                     <li><div className="flex items-center gap-3"><div><LuFocus className="text-[40px]" /></div> <span className="font-body">Enable Follow Camera Mode, Camera will follow the ball.</span></div></li>
                     <li><div className="flex items-center gap-3"><div><LuRotate3D className="text-[40px]" /></div> <span className="font-body">Enable Free Camera Mode, Camera will not follow the ball, but can be moved when game is paused.</span></div></li>
                 </ul>
@@ -151,6 +156,18 @@ export default function SkeeballUI() {
                 onClick={() => setTooltipClosed(!tooltipClosed)}>
                 <LuInfo className="w-6 h-6" />
               </button>
+            </div>
+
+            <div className="absolute top-0 right-0 p-3">
+              <div className={`p-2 rounded ${ ballIsReady ? 'bg-green-600' : 'bg-gray-700'}`}>
+                      {
+                        ballIsReady ? (
+                          <FaCheckCircle className="w-6 h-6 text-white" />
+                        ) : (
+                          <FaArrowRotateRight className="w-6 h-6 text-white animate-spin" />
+                        )
+                      }
+              </div>
             </div>
 
 

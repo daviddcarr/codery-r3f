@@ -54,15 +54,13 @@ const Fireworks = forwardRef((props, ref) => {
     }, [])
 
     const createTrail = (origin, texture, color) => {
-        console.log("origin", origin)
 
-        const position = new THREE.Vector3(((Math.random() - 0.5) * 0.1) + origin.x, origin.y + 0.75, ((Math.random() - 0.5) * 0.1) + origin.z)
-        console.log("position",position)
+        const finalPosition = new THREE.Vector3(((Math.random() - 0.5) * 0.1) + origin.x, origin.y + 0.5, ((Math.random() - 0.5) * 0.1) + origin.z)
 
         // Get a random point on the line between origin and position
         // Get direction vector from origin to position
         const direction = new THREE.Vector3()
-        direction.subVectors(position, origin)
+        direction.subVectors(finalPosition, origin)
         // Get a random point on the line
         const apexPosition = 0.5 + (Math.random() * 0.5)
         direction.multiplyScalar(apexPosition)
@@ -75,9 +73,9 @@ const Fireworks = forwardRef((props, ref) => {
         const positionArray = new Float32Array(3)
 
         // set target position
-        positionArray[0] = position.x
-        positionArray[1] = position.y
-        positionArray[2] = position.z
+        positionArray[0] = finalPosition.x
+        positionArray[1] = finalPosition.y
+        positionArray[2] = finalPosition.z
 
         const geometry = new THREE.BufferGeometry()
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionArray, 3))
@@ -106,7 +104,7 @@ const Fireworks = forwardRef((props, ref) => {
         })
 
         const trail = new THREE.Points(geometry, material)
-        trail.position.copy(position)
+        trail.position.copy(finalPosition)
         scene.add(trail)
 
         // Destroy

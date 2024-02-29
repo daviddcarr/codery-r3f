@@ -16,6 +16,8 @@ export default function Ball({setOrbitTarget}) {
         cameraMode, 
         setCameraMode, 
         gamePaused,
+        ballIsReady,
+        setBallIsReady,
         cameraPosition,
         setCameraPosition,
         updateCameraPosition,
@@ -27,6 +29,8 @@ export default function Ball({setOrbitTarget}) {
         state.cameraMode, 
         state.setCameraMode, 
         state.gamePaused,
+        state.ballIsReady,
+        state.setBallIsReady,
         state.cameraPosition,
         state.setCameraPosition,
         state.updateCameraPosition,
@@ -79,10 +83,7 @@ export default function Ball({setOrbitTarget}) {
 
 
     const handlePointerDown = () => {
-        // When user clicks on sphere, start tracking pointer movement
-        const vel = ballRef.current.linvel()
-        const velVector = new Vector3(vel.x, vel.y, vel.z)
-        if (!gamePaused && ballRef.current && velVector.length() < 0.01) {
+        if (ballIsReady) {
             setIsDragging(true)
         }
     }
@@ -164,6 +165,15 @@ export default function Ball({setOrbitTarget}) {
         // Keep plane position in sync with ball position
     
         if (ballRef.current) {
+            const vel = ballRef.current.linvel()
+            const velVector = new Vector3(vel.x, vel.y, vel.z)
+            if (!gamePaused && velVector.length() < 0.01) {
+                setBallIsReady(true)
+            } else {
+                setBallIsReady(false)
+            }
+
+
             const ballPosition = ballRef.current.translation()
             const ballPositionVector = new Vector3(ballPosition.x, ballPosition.y, ballPosition.z)
             
@@ -231,7 +241,6 @@ export default function Ball({setOrbitTarget}) {
 
     return (
         <>
-
             <RigidBody
                 ref={ballRef}
                 colliders="ball"
@@ -271,3 +280,4 @@ export default function Ball({setOrbitTarget}) {
         </>
     )
 }
+

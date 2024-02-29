@@ -60,6 +60,9 @@ export const useMiniGolfGame = create((set) => {
         setGamePaused: (gamePaused) => set({ gamePaused: gamePaused }),
         toggleGamePaused: () => set((state) => ({ gamePaused: !state.gamePaused })),
 
+        ballIsReady: false,
+        setBallIsReady: (ballIsReady) => set({ ballIsReady: ballIsReady }),
+
         cameraPosition: [0.25, 0.25, 0],
         setCameraPosition: (position) => {
             console.log("setCameraPosition", position)
