@@ -1,5 +1,3 @@
-import * as THREE from "three"
-import { useThree } from "@react-three/fiber"
 
 const colors = {
     purple: 0x6a12e9, // hsl(265/360 0.74, 86%, 49%)
@@ -14,14 +12,29 @@ const colors = {
 
 export default function SkeeballLights() {
 
-    const scene = useThree().scene
-
-    const spotlightTarget = new THREE.Object3D()
-    spotlightTarget.position.set(0, 40, 0)
-    scene.add(spotlightTarget)
-
     return (
         <>
+            {/* Arm Lights */}
+            <rectAreaLight
+                color={colors.yellow}
+                position={ [20, 0, -50] }
+                intensity={ 30 }
+                rotation={ [0, -Math.PI / 4, 0] }
+                visible={ true }
+                height={50}
+                width={50}
+                />
+
+            <rectAreaLight
+                color={colors.yellow}
+                position={ [-20, 0, -50] }
+                intensity={ 30 }
+                rotation={ [0, Math.PI / 4, 0] }
+                visible={ true }
+                height={50}
+                width={50}
+                />
+
             <ambientLight intensity={0.5} />
             <directionalLight
                 args={ [ colors.white, 1 ] }

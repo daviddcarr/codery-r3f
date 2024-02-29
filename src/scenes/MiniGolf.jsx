@@ -1,15 +1,17 @@
 import * as THREE from 'three'
 import { useState, useRef, createRef, useEffect } from 'react'
 import { extend, useFrame } from '@react-three/fiber'
-import { OrbitControls, Environment, shaderMaterial } from '@react-three/drei'
+import { OrbitControls, Environment, shaderMaterial, Sparkles } from '@react-three/drei'
 import { EffectComposer, DepthOfField } from '@react-three/postprocessing'
 import { Physics } from '@react-three/rapier'
 import { useMiniGolfGame } from '../stores/useMiniGolfGame'
 import useCodery from '../stores/useCodery'
 
 import Course from '../models/mini-golf/Courses'
+import MiniGolfLights from '../lights/MiniGolfLights'
 // import Colosseum from '../models/mini-golf/Colosseum'
 import SoldierHead from '../models/mini-golf/SoldierHead'
+import StatueHand from '../models/mini-golf/StatueHand'
 import Fireworks from '../models/mini-golf/Fireworks'
 
 import waveVertexShader from '../shaders/waves/vertex.glsl'
@@ -135,12 +137,7 @@ export default function MiniGolf() {
             files={"hdri/green_sanctuary_1k.hdr"}
             />
 
-          <directionalLight 
-            position={[2, 2, 2]} 
-            intensity={1} 
-            shadow-mapSize={[1024, 1024]}
-            castShadow 
-            />
+          <MiniGolfLights />
 
           <EffectComposer>
             <DepthOfField
@@ -175,10 +172,25 @@ export default function MiniGolf() {
 
           </Physics>
 
+          <Sparkles
+            size={ 1 }
+            scale={[ 20, 5, 20 ]}
+            position-y={ 1 }
+            speed={ 0.5 }
+            color={ "yellow" }
+            // count={ 100}
+            />
+
           <SoldierHead
             position={[-15, 0, 5]}
             scale={[0.08, 0.08, 0.08]}
             rotation={[0, Math.PI / 3, 0]}
+            />
+
+          <StatueHand
+            position={[10, -3, -5]}
+            scale={[0.03, 0.03, 0.03]}
+            rotation={[-Math.PI / 1.5, Math.PI, 0]}
             />
 
           {/* Ocean Plane */}
