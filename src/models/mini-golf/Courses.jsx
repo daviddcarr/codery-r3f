@@ -39,15 +39,12 @@ export default function Course({
     ])
 
     const handleLaunchFireworks = (endPosition) => {
-        if (fireworksRef.current) {            
-            fireworksRef.current.launchFirework(endPosition)
-            setTimeout(() => {
-                fireworksRef.current.launchFirework(endPosition)
-            }, 450)
-            setTimeout(() => {
-                fireworksRef.current.launchFirework(endPosition)
-            }, 1050)
-            
+        if (fireworksRef.current) {    
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    fireworksRef.current.launchFirework(endPosition)
+                }, i * 50)
+            }
         }
     }
 
@@ -55,7 +52,9 @@ export default function Course({
         const collidedBody = event.colliderObject
     
         if (collidedBody.name === "player" && !levelEnded) {
-            handleLaunchFireworks(new THREE.Vector3(endPosition[0] / 2, endPosition[1] / 2, endPosition[2] / 2))
+            if (gameState[currentLevel-1].strokes <= gameState[currentLevel-1].par) {
+                handleLaunchFireworks(new THREE.Vector3(endPosition[0] / 2, endPosition[1] / 2, endPosition[2] / 2))                
+            }
             setLevelEnded(true)
             inHoleSound.currentTime = 0
             inHoleSound.volume = 0.5
@@ -84,15 +83,7 @@ export default function Course({
         case 1:
             return (
                 <>
-                    {/* <mesh
-                        position={[0, 1, 0]}
-                        onClick={
-                            handleLaunchFireworks(new THREE.Vector3(-4.52, -0.08, 0))
-                        }
-                        >
-                        <boxGeometry args={[0.25, 0.25, 0.25]} />
-                        <meshStandardMaterial color="green" />
-                    </mesh> */}
+ 
                     {
                         !isHidden && (
                             <Ball setOrbitTarget={setOrbitTarget} />

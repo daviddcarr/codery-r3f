@@ -39,7 +39,7 @@ function App() {
               <div className="loading-bar max-w-[300px] w-full h-[5px] bg-slate-500 rounded">
                   <div 
                     className={`loading-bar-inner h-[5px] bg-purple rounded`}
-                    style={{ width: `${progress.loaded}%` }}
+                    style={{ width: `${progress.loaded < 100 ? progress.loaded : 100}%` }}
                     ></div>
               </div>
           </div>
@@ -55,7 +55,7 @@ function App() {
                     <div className="loading-bar max-w-[300px] w-full h-[5px] bg-slate-500 rounded">
                         <div 
                           className={`loading-bar-inner h-[5px] bg-purple rounded`}
-                          style={{ width: `${progress.loaded}%` }}
+                          style={{ width: `${progress.loaded < 100 ? progress.loaded : 100}%` }}
                           ></div>
                     </div>
                 </div>
