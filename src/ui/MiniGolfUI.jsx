@@ -76,6 +76,10 @@ export default function SkeeballUI() {
                     <li><div className="flex items-center gap-3"><div><LuRotate3D className="text-[40px]" /></div> <span className="font-body">Enable Free Camera Mode, Camera will not follow the ball, but can be moved when game is paused.</span></div></li>
                 </ul>
 
+                <p className="text-sm text-white mt-5 font-body">
+                    <strong>Recommended:</strong> To fully enjoy this experience, use a device with a cursor (mouse or touchpad). Mobile interaction is supported, but may not offer the intended gameplay. 
+                </p>
+
               <div className="flex justify-center w-full mt-4">
 
                 <button

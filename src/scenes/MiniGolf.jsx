@@ -10,7 +10,7 @@ import useCodery from '../stores/useCodery'
 import Course from '../models/mini-golf/Courses'
 import MiniGolfLights from '../lights/MiniGolfLights'
 // import Colosseum from '../models/mini-golf/Colosseum'
-import SoldierHead from '../models/mini-golf/SoldierHead'
+import DavidHead from '../models/mini-golf/DavidHead'
 import StatueHand from '../models/mini-golf/StatueHand'
 import Fireworks from '../models/mini-golf/Fireworks'
 
@@ -20,39 +20,39 @@ import waveFragmentShader from '../shaders/waves/fragment.glsl'
 const oceanPlanes = [
   {
     position: [0, 0, 0],
-    args: [50, 50, 2000, 2000]
+    args: [50, 50, 500, 500]
   },
   {
     position: [1, 0, 0],
-    args: [50, 50, 500, 500]
+    args: [50, 50, 125, 125]
   },
   {
     position: [1, 0, 1],
-    args: [50, 50, 500, 500]
+    args: [50, 50, 125, 125]
   },
   {
     position: [0, 0, 1],
-    args: [50, 50, 2000, 2000]
+    args: [50, 50, 125, 125]
   },
   {
     position: [-1, 0, 1],
-    args: [50, 50, 500, 500]
+    args: [50, 50, 125, 125]
   },
   {
     position: [-1, 0, 0],
-    args: [50, 50, 500, 500]
+    args: [50, 50, 125, 125]
   },
   {
     position: [-1, 0, -1],
-    args: [50, 50, 500, 500]
+    args: [50, 50, 125, 125]
   },
   {
     position: [0, 0, -1],
-    args: [50, 50, 2000, 2000]
+    args: [50, 50, 125, 125]
   },
   {
     position: [1, 0, -1],
-    args: [50, 50, 500, 500]
+    args: [50, 50, 125, 125]
   }
 ]
 
@@ -181,16 +181,16 @@ export default function MiniGolf() {
             // count={ 100}
             />
 
-          <SoldierHead
-            position={[-15, 0, 5]}
-            scale={[0.08, 0.08, 0.08]}
-            rotation={[0, Math.PI / 3, 0]}
+          <DavidHead
+            position={[-15, -2.2, 5]}
+            scale={[18, 18, 18]}
+            rotation={[0, 0, 0]}
             />
 
           <StatueHand
             position={[10, -3, -5]}
-            scale={[0.03, 0.03, 0.03]}
-            rotation={[-Math.PI / 1.5, Math.PI, 0]}
+            scale={[13, 13, 13]}
+            rotation={[-Math.PI / 1.8, Math.PI, 0]}
             />
 
           {/* Ocean Plane */}
