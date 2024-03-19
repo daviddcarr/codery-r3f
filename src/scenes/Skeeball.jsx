@@ -106,6 +106,7 @@ export default function Skeeball() {
                 position={ [ 0, -29, - 90 ] }
                 rotation={ [ Math.PI * 0.15, 0, 0 ] }
                 collisionFunction={ updateScore }
+                hasScored={ hasScored }
                 />
 
 

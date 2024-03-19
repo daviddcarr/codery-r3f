@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import {
     useGLTF,
@@ -8,8 +8,11 @@ import {
     CylinderCollider
 } from '@react-three/rapier'
 
+const defaultColor = '#FFFFFF'
+const succesColor = '#6a12e9'
 
-export default function SkeeballRings({ position, rotation, scale, collisionFunction }) {
+
+export default function SkeeballRings({ position, rotation, scale, collisionFunction, hasScored }) {
 
 
     return (
@@ -24,6 +27,7 @@ export default function SkeeballRings({ position, rotation, scale, collisionFunc
                 parentPosition={position}
                 collisionFunction={collisionFunction}
                 animated={false}
+                hasScored={hasScored}
                 />
             <RingLarge
                 position={[0, -5, -3]}
@@ -31,6 +35,7 @@ export default function SkeeballRings({ position, rotation, scale, collisionFunc
                 parentPosition={position}
                 collisionFunction={collisionFunction}
                 animated={true}
+                hasScored={hasScored}
                 />
             <RingMedium
                 // position={[0, -2, -3]}
@@ -39,6 +44,7 @@ export default function SkeeballRings({ position, rotation, scale, collisionFunc
                 parentPosition={position}
                 collisionFunction={collisionFunction}
                 animated={true}
+                hasScored={hasScored}
                 />
             <RingSmallest
                 position={[0, 0.5, -1]}
@@ -46,35 +52,49 @@ export default function SkeeballRings({ position, rotation, scale, collisionFunc
                 parentPosition={position}
                 collisionFunction={collisionFunction}
                 animated={true}
+                hasScored={hasScored}
                 />
         </group>
     )
 }
 
 
-function RingLargest({position, parentPosition, rotation, collisionFunction, animated}) {
+function RingLargest({position, parentPosition, rotation, collisionFunction, animated, hasScored}) {
     const ringLargest = useGLTF('./gltf/Skeeball_RingLargest.glb')
 
     const ringLargestRef = useRef()
-
+    
     useFrame(( state ) => {
         if (ringLargestRef.current && animated) {
             const time = state.clock.getElapsedTime()
-
+            
             const speed = 1
             const range = 1
-
+            
             const x = Math.sin((time * speed) * range)
-
+            
             const nextTranslation = {
                 x: parentPosition[0] + position[0] + x,
                 y: parentPosition[1] + position[1],
                 z: parentPosition[2] + position[2]
             }
-
+            
             ringLargestRef.current.setNextKinematicTranslation( nextTranslation )
         }
     })
+
+    const [materialColor, setMaterialColor] = useState(defaultColor)
+
+    const handleCollision = () => {
+        if (hasScored) { return }
+        collisionFunction(10)
+
+        setMaterialColor(succesColor)
+
+        setTimeout(() => {
+            setMaterialColor(defaultColor)
+        }, 3000)
+    }
 
     return (
         <group
@@ -86,12 +106,17 @@ function RingLargest({position, parentPosition, rotation, collisionFunction, ani
                 colliders="trimesh"
                 ref={ ringLargestRef }
                 >
-                <primitive
-                    object={ringLargest.scene}
-                    />
+                <mesh
+                    geometry={ ringLargest.nodes.Ring_Largest.geometry }
+                    >
+                    <meshStandardMaterial
+                        color={ materialColor }
+                        attach="material"
+                        />
+                </mesh>
                 <CylinderCollider
                     onIntersectionEnter={ () => { 
-                        collisionFunction(10)
+                        handleCollision()
                     } }
                     position={ [0, -1, 0] }
                     args={ [1, 13.2 ] }
@@ -102,10 +127,14 @@ function RingLargest({position, parentPosition, rotation, collisionFunction, ani
     )
 }
 
-function RingLarge({position, parentPosition, rotation, collisionFunction, animated}) {
+function RingLarge({position, parentPosition, rotation, collisionFunction, animated, hasScored}) {
     const ringLarge = useGLTF('./gltf/Skeeball_RingLarge.glb')
 
     const ringLargeRef = useRef()
+
+    useEffect(() => {
+        console.log(ringLarge)
+    }, [])
 
     const speed = 0.5
     const range = 3
@@ -128,6 +157,19 @@ function RingLarge({position, parentPosition, rotation, collisionFunction, anima
         }
     })
 
+    const [materialColor, setMaterialColor] = useState(defaultColor)
+
+    const handleCollision = () => {
+        if (hasScored) { return }
+        collisionFunction(25)
+
+        setMaterialColor(succesColor)
+
+        setTimeout(() => {
+            setMaterialColor(defaultColor)
+        }, 3000)
+    }
+
     return (
         <group
             position={ position }
@@ -138,12 +180,17 @@ function RingLarge({position, parentPosition, rotation, collisionFunction, anima
                 colliders="trimesh"
                 ref={ ringLargeRef }
                 >
-                <primitive
-                    object={ringLarge.scene}
-                    />
+                <mesh
+                    geometry={ ringLarge.nodes.Ring_Large.geometry }
+                    >
+                    <meshStandardMaterial
+                        color={ materialColor }
+                        attach="material"
+                        />
+                </mesh>
                 <CylinderCollider
                     onIntersectionEnter={ () => {
-                        collisionFunction(25)
+                        handleCollision()
                     } }
                     position={ [0, -1, 0] }
                     args={ [0.5, 7.3, 5 ] }
@@ -154,7 +201,7 @@ function RingLarge({position, parentPosition, rotation, collisionFunction, anima
     )
 }
 
-function RingMedium({position, parentPosition, rotation, collisionFunction, animated}) {
+function RingMedium({position, parentPosition, rotation, collisionFunction, animated, hasScored}) {
     const ringMedium = useGLTF('./gltf/Skeeball_RingMedium.glb')
 
     const ringMediumRef = useRef()
@@ -180,6 +227,19 @@ function RingMedium({position, parentPosition, rotation, collisionFunction, anim
         }
     })
 
+    const [materialColor, setMaterialColor] = useState(defaultColor)
+
+    const handleCollision = () => {
+        if (hasScored) { return }
+        collisionFunction(50)
+
+        setMaterialColor(succesColor)
+
+        setTimeout(() => {
+            setMaterialColor(defaultColor)
+        }, 3000)
+    }
+
     return (
         <group
             position={ position }
@@ -190,12 +250,17 @@ function RingMedium({position, parentPosition, rotation, collisionFunction, anim
                 colliders="trimesh"
                 ref={ ringMediumRef }
                 >
-                <primitive
-                    object={ringMedium.scene}
-                    />
+                <mesh
+                    geometry={ ringMedium.nodes.Ring_Medium.geometry }
+                    >
+                    <meshStandardMaterial
+                        color={ materialColor }
+                        attach="material"
+                        />
+                </mesh>
                 <CylinderCollider
                     onIntersectionEnter={ () => {
-                        collisionFunction(50)
+                        handleCollision()
                     } }
                     position={ [0, -1, 0] }
                     args={ [0.5, 3.7, 5 ] }
@@ -206,8 +271,12 @@ function RingMedium({position, parentPosition, rotation, collisionFunction, anim
     )
 }
 
-function RingSmallest({position, parentPosition, rotation, collisionFunction, animated}) {
+function RingSmallest({position, parentPosition, rotation, collisionFunction, animated, hasScored}) {
     const ringSmall = useGLTF('./gltf/Skeeball_RingSmallest.glb')
+
+    useEffect(() => {
+        console.log(ringSmall)
+    }, [])
 
     const ringSmallRef = useRef()
 
@@ -232,6 +301,19 @@ function RingSmallest({position, parentPosition, rotation, collisionFunction, an
         }
     })
 
+    const [materialColor, setMaterialColor] = useState(defaultColor)
+
+    const handleCollision = () => {
+        if (hasScored) { return }
+        collisionFunction(100)
+
+        setMaterialColor(succesColor)
+
+        setTimeout(() => {
+            setMaterialColor(defaultColor)
+        }, 3000)
+    }
+
     return (
         <group
             position={ position }
@@ -242,12 +324,17 @@ function RingSmallest({position, parentPosition, rotation, collisionFunction, an
                 colliders="trimesh"
                 ref={ ringSmallRef }
                 >
-                <primitive
-                    object={ringSmall.scene}
-                    />
+                <mesh
+                    geometry={ ringSmall.nodes.Ring_Smallest.geometry }
+                    >
+                    <meshStandardMaterial
+                        color={ materialColor }
+                        attach="material"
+                        />
+                </mesh>
                 <CylinderCollider
                     onIntersectionEnter={ () => {
-                        collisionFunction(100)
+                        handleCollision()
                     } }
                     position={ [0, -1, 0] }
                     args={ [0.5, 1.6, 5 ] }

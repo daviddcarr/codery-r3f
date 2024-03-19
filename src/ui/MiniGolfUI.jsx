@@ -1,9 +1,9 @@
 import { useMiniGolfGame } from "../stores/useMiniGolfGame"
 
-import { GiPauseButton, GiPlayButton } from 'react-icons/gi'
+import { GiPauseButton, GiPlayButton, GiBlackball } from 'react-icons/gi'
 import { LuRotate3D, LuFocus, LuInfo } from "react-icons/lu"
 import { FaCheckCircle } from "react-icons/fa"
-import { FaArrowRotateRight } from "react-icons/fa6"
+import { FaCirclePause } from "react-icons/fa6"
 
 import { useState } from 'react'
 
@@ -165,10 +165,17 @@ export default function SkeeballUI() {
             <div className="absolute top-0 right-0 p-3">
               <div className={`p-2 rounded ${ ballIsReady ? 'bg-green-600' : 'bg-gray-700'}`}>
                       {
-                        ballIsReady ? (
+                        ballIsReady && ! gamePaused && (
                           <FaCheckCircle className="w-6 h-6 text-white" />
-                        ) : (
-                          <FaArrowRotateRight className="w-6 h-6 text-white animate-spin" />
+                        )
+                      }
+                      {
+                        gamePaused && (
+                          <FaCirclePause className="w-6 h-6 text-white" />
+                        )
+                      }
+                      { ! ballIsReady && ! gamePaused && (
+                          <GiBlackball className="w-6 h-6 text-white animate-spin" />
                         )
                       }
               </div>

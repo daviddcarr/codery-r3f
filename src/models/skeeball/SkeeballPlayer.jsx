@@ -76,10 +76,13 @@ export default function SkeeballPlayer(props) {
              */
             const playerPosition = player.current.translation()
     
-            const cameraPosition = new THREE.Vector3()
-            cameraPosition.copy( playerPosition )
-            cameraPosition.z += 2
-            cameraPosition.y += 2
+            const cameraPosition = lastCameraPosition ? lastCameraPosition.clone() : new THREE.Vector3()
+            if (player.current.translation().z > -70) {
+                cameraPosition.copy( playerPosition )
+                cameraPosition.z += 2
+                cameraPosition.y += 2
+            }
+            //console.log(lastCameraPosition)
             cameraPosition.x = isStatic ? 0 : cameraPosition.x
     
             const cameraTarget = new THREE.Vector3()
@@ -113,6 +116,8 @@ export default function SkeeballPlayer(props) {
              * Follow Camera
              */
             else {
+                setLastCameraPosition(cameraPosition)
+                
                 smoothedCameraPosition.lerp( cameraPosition, 5 * delta )
                 smoothedCameraTarget.lerp( cameraTarget, 5 * delta )
         
